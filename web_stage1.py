@@ -62,14 +62,8 @@ app.layout =html.Div(children=[
         
 		html.Div(className='left_container',children=[        
 			html.Div(children=[
-				html.Nav(children=[
-					html.A(children=[
-						html.I(children=[
-							html.B('Pbgl ')
-						])
-						,'Coffee Mutant Browser'
-					])
-				])
+				html.H2(className='h2',children='FAO/IAEA-PBGL',style={'color': '#056aae'}),
+                html.H3(className='h3',children='Coffee Mutants Browser',style={'color': '#056aae'})
 			]),
 			html.Div(children=[
 				html.Div(children=[
@@ -183,8 +177,9 @@ app.layout =html.Div(children=[
                     ],style={'inline':True})
                 ],style={"border":"3px black dotted"}),
                 
-                html.Div(children=[
-                    html.Button(id='search_button',n_clicks=0, children='Search',style={'backgroundColor':'red','color':'black','fontWeight': 'bold','position':'right'})
+                html.Div(className='right',children=[
+                    html.Button(id='search_button',n_clicks=0, children='Search',style={'backgroundColor':'#FF0000','color':'black','fontWeight': 'bold',
+                                                                                        'padding-left':'25%', 'padding-right':'25%','float':'center'})
                 ]),
             ])
         ]),
@@ -206,23 +201,24 @@ app.layout =html.Div(children=[
                                              {'name':'TYPE','id':'TYPE','type':'text'},
                                              {'name':'IMPACT','id':'ANN[*].IMPACT','type':'text'},
                                              {'name':'EFFECT','id':'ANN[*].EFFECT','type':'text'},
+                                             {'name':'Distance','id':'ANN[*].DISTANCE','type':'text'},
                                              {'name':'ID','id':'ID','type':'text'},
                                              ],
                                          sort_action="native",
                                          sort_mode="multi",
-                                         page_size=25,
+                                         page_action='none',
                                          fixed_rows={'headers': True,'data':0},
-                                         style_table={'height': 1500},
+                                         style_table={'maxheight': '1500','overflowY':'scroll'},
                                          filter_action='native',
-                                         style_data={'width': '{}%'.format(100. / 14),
-                                                     'border': '1px solid blue' },
+                                         style_data={'width': '{}%'.format(100. / 15), # 14 is the number of columns to display on the page as a result.
+                                                     'border': '1px solid #0000FF' },
                                          style_header={
-                                             'backgroundColor': 'blue',
-                                             'fontcolor':'white',
+                                             'backgroundColor': '#C0C0C0',
+                                             'fontcolor':'#0000FF',
                                              'fontWeight': 'bold'},
                                          style_cell_conditional=[{'textAlign': 'left'}],
                                          )
-                    ])
+                    ],style={'height':'100%'})
                 ])
             ])
         ]),
@@ -305,7 +301,7 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
             filtered_data=filters(test_data_1,variant_value,impact_value,effect_value,Multi_allelic_value)
         
         final_data=pd.merge(Genotype_Data_1,filtered_data,on='Chrom_Pos')
-        final_data_1=final_data[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ID']]
+        final_data_1=final_data[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']]
         clicker=clicker+1
         print(final_data_1.head(10))
         if noisy_value == True:
@@ -319,7 +315,7 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
         
             
     else:
-        final_data_3=pd.DataFrame(columns=[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ID']],data=None)
+        final_data_3=pd.DataFrame(columns=[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']],data=None)
     return final_data_3.to_dict('records')
 
 
