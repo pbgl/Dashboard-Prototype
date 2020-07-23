@@ -179,7 +179,7 @@ app.layout =html.Div(children=[
                 
                 html.Div(className='right',children=[
                     html.Button(id='search_button',n_clicks=0, children='Search',style={'backgroundColor':'#FF0000','color':'black','fontWeight': 'bold',
-                                                                                        'padding-left':'25%', 'padding-right':'25%','float':'center'})
+                                                                                        'padding-left':'25%', 'padding-right':'25%','float':'center','left':'20px'})
                 ]),
             ])
         ]),
