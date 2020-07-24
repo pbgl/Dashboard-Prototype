@@ -35,6 +35,7 @@ chromosome_name=pd.read_csv(r'data/chromosome_name_mapping.csv',delimiter='\t',e
 Genotype_Data=pd.read_csv(r'data/Genotype_Data.csv',delimiter='\t',encoding='UTF-8')
 passport=pd.read_csv(r'data/passport.csv',delimiter='\t',encoding='UTF-8')
 
+passport.replace(np.NaN,'NA')
 
 Genotype_Data_1=pd.melt(Genotype_Data,id_vars=['CHROM','POS'],var_name='Sample_ID',value_name='GT')
 Genotype_Data_1['Chrom_Pos']=Genotype_Data_1['CHROM'].astype(str).str.cat(Genotype_Data_1['POS'].astype(str),sep='_')
@@ -80,33 +81,39 @@ app.layout =html.Div(children=[
 							dcc.Tab(label='Gene Identifier',value='Gene_tab',children=[
 								html.Div(children=[
 									html.H5(children='Gene Name:',style={'color':'red'}),
-									dcc.Input(id='Gene_Identifier',placeholder='Type to pick some TAIR IDs...',value='all',style={'marginBottom': '1.5em'})])
+									dcc.Input(id='Gene_Identifier',placeholder='Type to pick some TAIR IDs...',value='all',style={'marginBottom': '1.5em'})
+                                    ]),
+                                html.Div(children=[
+                                    html.H5(children='Max Distance from Gene (bp):',style={'color':'red'}),
+                                    dcc.Input(id='Distance',placeholder='Max Distance from the gene',value='',
+                                              style={'marginBottom': '1.5em'},type='number')
+                                ])
 								
-								],style=tab_style, selected_style=tab_selected_style),
+							],style=tab_style, selected_style=tab_selected_style),
 							dcc.Tab(label='Range',value='range_tab',children=[
 								html.Div(children=[
-									html.H5(children='Chromosome Name:'),
+									html.H5(children='Chromosome Name:',style={'color':'red'}),
 									dcc.Input(id='chromosome_name',type='text',placeholder='Chromosome Name',
 											  value='all')
 									]),
 								html.Div(children=[
-									html.H5( children='Start:'),
+									html.H5( children='Start:',style={'color':'red'}),
 									dcc.Input(id='start_pos',type='number',placeholder='Start Position',
 											  value='all')
 									]),
 								html.Div(children=[
-									html.H5(children='End:'),
+									html.H5(children='End:',style={'color':'red'}),
 									dcc.Input(id='end_pos',type='number',placeholder='End Position',
 											  value='all',style={'marginBottom': '1.5em'})
 									]),
 								],style=tab_style, selected_style=tab_selected_style),
 							dcc.Tab(label='Position',value='Pos_tab',children=[
 								html.Div(children=[
-									html.H5(children='Chromosome Name:'),
+									html.H5(children='Chromosome Name:',style={'color':'red'}),
 									dcc.Input(id='chromosome_name_pos',type='text',placeholder='Chromosome Name')
 									]),
 								html.Div(children=[
-									html.H5(children='Position'),
+									html.H5(children='Position',style={'color':'red'}),
 									dcc.Input(id='position',type='number',placeholder=' Position',style={'marginBottom': '1.5em'})
 									]),
 								],style=tab_style, selected_style=tab_selected_style)
@@ -151,10 +158,8 @@ app.layout =html.Div(children=[
 				],style={"border":"3px blue dotted"}),
                 html.Div(className='control-tab',children=[
                     html.H5('Noise Removal'),
-                    html.H5('Plants with Reference Allele'),
-                    html.Div(className='app-controls-block', children=[
-                        html.Div(className='app-controls-name',
-                                 children='0/0'),
+                    html.Div(children=[
+                        html.Div(children='Plant With REF Allel (0/0)'),
                         daq.ToggleSwitch(
                                     id='noisy_snps',
                                     label=['hide', 'show'],
@@ -163,10 +168,8 @@ app.layout =html.Div(children=[
                                     value=False
                                 ),
                     ],style={'inline':True}),
-                    html.H4('Alleles'),
-                    html.Div(className='app-controls-block', children=[
-                        html.Div(className='app-controls-name',
-                                 children='Multi Allelic'),
+                    html.Div(children=[
+                        html.Div(children='Multi Allelic'),
                         daq.ToggleSwitch(
                                     id='Multi_allelic',
                                     label=['hide', 'show'],
@@ -179,7 +182,7 @@ app.layout =html.Div(children=[
                 
                 html.Div(className='right',children=[
                     html.Button(id='search_button',n_clicks=0, children='Search',style={'backgroundColor':'#FF0000','color':'black','fontWeight': 'bold',
-                                                                                        'padding-left':'25%', 'padding-right':'25%','float':'center','left':'20px'})
+                                                                                        'padding-left':'25%', 'padding-right':'25%','float':'center'})
                 ]),
             ])
         ]),
@@ -272,9 +275,10 @@ def filters(test_data,variant_value,impact_value,effect_value,Multi_allelic_valu
      Input('noisy_snps',"value"),
      Input('Multi_allelic',"value"),
      Input('variety',"value"),
-     Input('generation',"value"),])
+     Input('generation',"value"),
+     Input('Distance',"value"),])
 def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_pos_value,choromosome_name_third_tab,pos_third_tab,
-                  variant_value,impact_value,effect_value,n_clicks,noisy_value,Multi_allelic_value,variety_value,generation_value):
+                  variant_value,impact_value,effect_value,n_clicks,noisy_value,Multi_allelic_value,variety_value,generation_value,distance_value):
     global clicker
     
     final_data_3=pd.DataFrame()    
@@ -284,13 +288,18 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
             #test_data=SnpSiftData
             #filtered_data=filters(test_data,variant_value,impact_value,effect_value)
             test_data=SnpSiftData[SnpSiftData['ANN[*].GENE']==Geno_value]
+            if distance_value == '':
+                test_data=test_data
+            else:
+                test_data=test_data[test_data['ANN[*].DISTANCE'] <= distance_value]
+                
             filtered_data=filters(test_data,variant_value,impact_value,effect_value,Multi_allelic_value)
             print('Gene Tab Initiated')
         if tabs_value == 'range_tab':
             
             test_data=SnpSiftData[SnpSiftData['chrome_name']==chrome_name_value]
             if start_pos_value != 'all' and end_pos_value != 'all':
-                test_data_1=test_data[np.logical_and(start_pos_value < test_data['POS'],test_data['POS'] < end_pos_value)]
+                test_data_1=test_data[tart_pos_value < test_data['POS'] and test_data['POS'] < end_pos_value]
             else:
                 test_data_1=test_data
             filtered_data=filters(test_data_1,variant_value,impact_value,effect_value,Multi_allelic_value)
@@ -316,6 +325,7 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
             
     else:
         final_data_3=pd.DataFrame(columns=[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']],data=None)
+    #final_data_3.replace(np.NaN,'NA')
     return final_data_3.to_dict('records')
 
 

@@ -67,14 +67,13 @@ style=tab_style, selected_style=tab_selected_style width: 15%;
 .right_container{
  width:78%;
  position:fixed;
- top:10px;
  right:5px;
  overflow: auto 
  }
 .left_container {
  width: 20%;
  position:absolute;
- top:10px;
+ top:10px
  left:15px;
  border: 3px solid green;
  border-radius: 5px;
