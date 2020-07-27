@@ -43,7 +43,9 @@ Genotype_Data_1['Chrom_Pos']=Genotype_Data_1['CHROM'].astype(str).str.cat(Genoty
 SnpSiftData['Chrom_Pos']=SnpSiftData['CHROM'].astype(str).str.cat(SnpSiftData['POS'].astype(str),sep='_')
 # Adding the information {Variety, Generation} from the passport file into Genotype_Data_1 file. 
 Genotype_Data_1.insert(4,'Variety',Genotype_Data_1['Sample_ID'].map(passport.set_index('Sample-ID')['Variety']))
-Genotype_Data_1.insert(5,'Generation',Genotype_Data_1['Sample_ID'].map(passport.set_index('Sample-ID')['Generation']))  
+Genotype_Data_1.insert(5,'Generation',Genotype_Data_1['Sample_ID'].map(passport.set_index('Sample-ID')['Generation']))
+Genotype_Data_1.insert(5,'Treatment',Genotype_Data_1['Sample_ID'].map(passport.set_index('Sample-ID')['Treatment']))
+Genotype_Data_1.insert(5,'Dose',Genotype_Data_1['Sample_ID'].map(passport.set_index('Sample-ID')['Dose'])) 
 # Adding the chromosome names from the chromosome_name file.(Note the names will the same at first but if the user updates them they will be updated)
 SnpSiftData.insert(5,'chrome_name',SnpSiftData['CHROM'].map(chromosome_name.set_index('Contig')['Chromosome']))
 clicker=0
@@ -201,6 +203,8 @@ app.layout =html.Div(children=[
                                              {'name':'Sample_ID','id':'Sample_ID','type':'text'},
                                              {'name':'Variety','id':'Variety','type':'text'},
                                              {'name':'Generation','id':'Generation','type':'text'},
+                                             {'name':'Treatment','id':'Treatment','type':'text'},
+                                             {'name':'Dose','id':'Dose','type':'text'},
                                              {'name':'GT','id':'GT','type':'text'},
                                              {'name':'REF','id':'REF','type':'text'},
                                              {'name':'ALT','id':'ALT','type':'text'},
@@ -216,7 +220,7 @@ app.layout =html.Div(children=[
                                          fixed_rows={'headers': True,'data':0},
                                          style_table={'maxheight': '1500','overflowY':'scroll'},
                                          filter_action='native',
-                                         style_data={'width': '{}%'.format(100. / 15), # 14 is the number of columns to display on the page as a result.
+                                         style_data={'width': '{}%'.format(100. / 17), # 17 is the number of columns to display on the page as a result.
                                                      'border': '1px solid #0000FF' },
                                          style_header={
                                              'backgroundColor': '#C0C0C0',
@@ -284,7 +288,8 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
                   variant_value,impact_value,effect_value,n_clicks,noisy_value,Multi_allelic_value,variety_value,generation_value,distance_value):
     global clicker
     
-    final_data_3=pd.DataFrame()    
+    final_data_3=pd.DataFrame()  
+    final_data_4=pd.DataFrame()  
     if n_clicks > clicker:
         if tabs_value == 'Gene_tab':
             #if Geno_value == 'all' and chrome_name_value=='all' and start_pos_value == 'all' and end_pos_value == 'all':
@@ -313,7 +318,7 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
             filtered_data=filters(test_data_1,variant_value,impact_value,effect_value,Multi_allelic_value)
         
         final_data=pd.merge(Genotype_Data_1,filtered_data,on='Chrom_Pos')
-        final_data_1=final_data[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']]
+        final_data_1=final_data[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','Treatment','Dose','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']]
         clicker=clicker+1
         print(final_data_1.head(10))
         if noisy_value == True:
@@ -327,10 +332,16 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
         else:
             for i in variety_value:
                 final_data_3=final_data_3.append(final_data_2[final_data_2['Variety']==i])
+                
+        if generation_value == [['NA']]:
+            final_data_4=final_data_3
+        else:
+            for i in generation_value:
+                final_data_4= final_data_4.append(final_data_3[final_data_3['Variety']==i])
         
             
     else:
-        final_data_3=pd.DataFrame(columns=[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']],data=None)
+        final_data_3=pd.DataFrame(columns=[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','Treatment','Dose','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']],data=None)
     #final_data_3.replace(np.NaN,'NA')
     print(final_data_3.head())
 
