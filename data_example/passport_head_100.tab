@@ -1,0 +1,13 @@
+Sample-ID	Plant-ID	Branch-ID	Variety	Generation	Treatment	Dose
+1-C7	1-C7	NA	Venecia	Control	NA	NA
+1-D4	1-D4	NA	Venecia	M1	gamma	50 Gy
+1-E2	1-E2	NA	Venecia	M1	gamma	100 Gy
+1-E4	1-E4	NA	Venecia	M1	gamma	100 Gy
+15-A5	15-A5	NA	Catuai	Control	NA	NA
+15-A7	15-A7	NA	Catuai	M1	gamma	200 Gy
+15-B2	15-B2	NA	Catuai	M1	EMS	2%
+15-C2	15-C2	NA	Caturra	Control	NA	NA
+15-D6	15-D6	NA	Catuai	M1	EMS	4%
+16-C5	16-C5	NA	Caturra	M1	EMS	4%
+16-D7	16-D7	NA	Caturra	M1	EMS	6%
+16-E4	16-E4	NA	Caturra	M1	EMS	6%

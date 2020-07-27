@@ -10,14 +10,6 @@ Mutants Browser DashBoard
 .. image:: https://img.shields.io/pypi/pyversions/snakemake.svg
     :target: https://www.python.org
 
-.. image:: https://img.shields.io/pypi/v/snakemake.svg
-    :target: https://pypi.python.org/pypi/snakemake
-
-.. image:: https://github.com/snakemake/snakemake/workflows/CI/badge.svg?branch=master
-    :target: https://github.com/snakemake/snakemake/actions?query=branch%3Amaster+workflow%3ACI
-
-.. image:: https://img.shields.io/badge/stack-overflow-orange.svg
-    :target: https://stackoverflow.com/questions/tagged/snakemake
 
 
 
@@ -69,12 +61,12 @@ On such annotated VCF/BCF file run the parser script like so:
 
 This will generate all required data tables.
 
-1- snpsiftdata.csv
-2- chromosome_name_mapping.csv
-3- Genotype_Data.csv
-4- passport.csv
+* snpsiftdata.tab
+* genotype_data.tab
+* passport.tab
+* chromosome_name_mapping.tab
 
-Note: The user now has the option to edit **passport.csv** in order to add details to individual samples and to edit the **chromosome_name_mapping.csv** and provide custom chromosome identifiers in the "Chromosome" column. 
+The user now has the option to edit **passport.tab** in order to add details to individual samples. In **chromosome_name_mapping.tab** custom chromosome identifiers can be provided in the "Chromosome" column. 
 Note that subsequent runs of the parser (vcf_to_datatables.sh) will overwrite the existing files. Details on how the tables are generated can be found further below.
 
 ----------------------
@@ -85,7 +77,7 @@ With the data tables generated and in /data, run the following command to create
 
 .. code-block:: bash
 
-    $ python web_stage1.py
+    $ python mutants_dashboard.py
 
 Upon startup the dashboard will report where its running:
 
@@ -93,7 +85,7 @@ Upon startup the dashboard will report where its running:
 
     Running on http://127.0.0.1:8050/
     Debugger PIN: 383-685-305
-    * Serving Flask app "web_stage1" (lazy loading)
+    * Serving Flask app "mutants_dashboard" (lazy loading)
     * Environment: production
     WARNING: This is a development server. Do not use it in a production deployment.
 
@@ -118,7 +110,8 @@ This file is created from the <inputfile.vcf/bcf> by utils/vcf_to_datatables.sh 
 
 .. code-block:: python
 
-    bcftools view <inputfile.vcf/bcf> | grep -v "start_retained_variant" | $CONDA_PREFIX/share/snpsift-*/scripts/vcfEffOnePerLine.pl | SnpSift extractFields -e "NA" - "ANN[*].GENE" "ANN[*].DISTANCE" CHROM POS ID REF ALT TYPE "ANN[*].IMPACT" "ANN[*].EFFECT" "ANN[*].FEATURE" "ANN[*].FEATUREID" "ANN[*].BIOTYPE" "ANN[*].RANK" > data/snpsiftdata.csv
+    bcftools view <inputfile.vcf/bcf> | grep -v "start_retained_variant" | $CONDA_PREFIX/share/snpsift-*/scripts/vcfEffOnePerLine.pl | SnpSift extractFields -e "NA" - "ANN[*].GENE" "ANN[*].DISTANCE" CHROM POS ID REF ALT TYPE "ANN[*].IMPACT" "ANN[*].EFFECT" "ANN[*].FEATURE" "ANN[*].FEATUREID" "ANN[*].BIOTYPE" "ANN[*].RANK" > data/snpsiftdata.tab
+
 
 
 It uses snpEff/SnpSifts own functionality and scripts to extract the relevant information per variant and effect.
@@ -132,8 +125,8 @@ This file is created from the <inputfile.vcf/bcf> by utils/vcf_to_datatables.sh 
 
 .. code-block:: bash
 
-    printf "Contig\\tChromosome\n" > data/chromosome_name_mapping.csv
-    bcftools view -h <inputfile.vcf/bcf> | grep "##cont"| awk -F "=|," '{print $3 "\t" $3}' >> data/chromosome_name_mapping.csv
+    printf "Contig\\tChromosome\n" > data/chromosome_name_mapping.tab
+    bcftools view -h <inputfile.vcf/bcf> | grep "##cont"| awk -F "=|," '{print $3 "\t" $3}' >> data/chromosome_name_mapping.tab
 
 Information on chromosome names is extracted from the vcf/bcf file and recorded twice (in 2 columns), as "Contig" and "Chromosome". 
 The "Contig" column must remain unchanged. By editing the "Chromosome" column the user has the option of mapping the "Contig" names to custom chromosome identifiers.  
@@ -149,8 +142,8 @@ This file is created from the <inputfile.vcf/bcf> by utils/vcf_to_datatables.sh 
 
     CHROM_POS=$(printf "CHROM\\tPOS\\t");
     SAMPLE_NAMES=$(bcftools query -l <inputfile.vcf/bcf> | paste -s -d "\t" -)
-    echo "$CHROM_POS$SAMPLE_NAMES"> data/Genotype_Data.csv
-    bcftools view <inputfile.vcf/bcf> | bcftools query -f "%CHROM\t%POS[\t%GT]\n">> data/Genotype_Data.csv
+    echo "$CHROM_POS$SAMPLE_NAMES"> data/genotype_data.tab
+    bcftools view <inputfile.vcf/bcf> | bcftools query -f "%CHROM\t%POS[\t%GT]\n">> data/genotype_data.tab
 
 It simply extracts
 
@@ -165,16 +158,16 @@ The user will need to edit this file to provide the relevant passport informatio
 
 .. code-block:: bash
 
-    printf "Sample-ID\\tPlant-ID\\tBranch-ID\\tVariety\\tGeneration\\tTreatment\\tDose\n" > data/passport.csv
-    a=$(bcftools query -l $annotated_vcf_gz)
+    printf "Sample-ID\\tPlant-ID\\tBranch-ID\\tVariety\\tGeneration\\tTreatment\\tDose\n" > data/passport.tab
+    a=$(bcftools query -l <inputfile.vcf/bcf>)
     b="\tNA\tNA\tNA\tNA\tNA\tNA"
     for i in ${a[*]}; do
-       echo -e $i$b >> data/passport.csv;
+       echo -e $i$b >> data/passport.tab;
     done
 
 
 
-Example passport.csv file:
+Example passport.tab file:
 
       +----------+----------------------------------------------------------------------+
       | Sample-ID | Plant-ID | Branch-ID | Variety   |Generation  | Treatment  | Dose   | 
