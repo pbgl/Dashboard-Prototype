@@ -8,6 +8,19 @@ import dash_table
 from dash.dependencies import Input, Output
 import dash_daq as daq
 
+
+
+############################################
+
+institution='FAO/IAEA-PBGL'
+tool='Coffee Mutants Browser'
+
+# Dont change below this line
+############################################
+
+
+
+
 '''my_file=open('format.css','r')
 external_stylesheets = my_file.readlines()'''
 x={'label':'all','value':'all'}
@@ -67,8 +80,8 @@ app.layout =html.Div(children=[
         
 		html.Div(className='left_container',children=[        
 			html.Div(children=[
-				html.H2(className='h2',children='FAO/IAEA-PBGL',style={'color': '#056aae'}),
-                html.H3(className='h3',children='Coffee Mutants Browser',style={'color': '#056aae'})
+				html.H2(className='h2',children=institution,style={'color': '#056aae'}),
+                html.H3(className='h3',children=tool,style={'color': '#056aae'})
 			]),
 			html.Div(children=[
 				html.Div(children=[
@@ -147,7 +160,7 @@ app.layout =html.Div(children=[
                     ])
 				],style={"border":"3px red dotted"}),
                 html.Div(children=[
-                    html.H5('Plant Filter'),
+                    html.H5('Passport Filter'),
                     dcc.Tabs(value='plant_tab',children=[
                         dcc.Tab(label='Variety',value='variety_tab',children=[
                             dcc.Checklist(id='variety',
@@ -164,17 +177,24 @@ app.layout =html.Div(children=[
                 html.Div(className='control-tab',children=[
                     html.H5('Noise Removal'),
                     html.Div(children=[
-                        html.Div(children='Plant With REF Allel (0/0)'),
+                        html.Div(children='Samples with REF Allele (0/0)'),
                         daq.ToggleSwitch(
-                                    id='noisy_snps',
+                                    id='ref_snps',
                                     label=['hide', 'show'],
                                     color='#009DFF',
                                     size=35,
                                     value=False
                                 ),
+                        html.Div(children='Samples with Missing Data (.)'),
+                        daq.ToggleSwitch(id='noisy_snps',
+                                         label=['hide','show'],
+                                         color='#009DFF',
+                                         size=35,
+                                         value=False
+                                         ),                        
                     ],style={'inline':True}),
                     html.Div(children=[
-                        html.Div(children='Multi Allelic'),
+                        html.Div(children='Multi Allelic Variants'),
                         daq.ToggleSwitch(
                                     id='Multi_allelic',
                                     label=['hide', 'show'],
@@ -198,7 +218,7 @@ app.layout =html.Div(children=[
                                          columns=[
                                              {'name':'Gene','id':'ANN[*].GENE','type':'text'},
                                              {'name':'Chromosome','id':'chrome_name','type':'text'},
-                                             {'name':'Contig Name','id':'CHROM_x','type':'text'},
+                                             {'name':'Contig','id':'CHROM_x','type':'text'},
                                              {'name':'Position','id':'POS_y','type':'text'},
                                              {'name':'Sample_ID','id':'Sample_ID','type':'text'},
                                              {'name':'Variety','id':'Variety','type':'text'},
@@ -279,17 +299,18 @@ def filters(test_data,variant_value,impact_value,effect_value,Multi_allelic_valu
      Input('impact',"value"),
      Input('effect_type',"value"),
      Input('search_button',"n_clicks"),
+     Input('ref_snps',"value"),
      Input('noisy_snps',"value"),
      Input('Multi_allelic',"value"),
      Input('variety',"value"),
      Input('generation',"value"),
      Input('Distance',"value"),])
 def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_pos_value,choromosome_name_third_tab,pos_third_tab,
-                  variant_value,impact_value,effect_value,n_clicks,noisy_value,Multi_allelic_value,variety_value,generation_value,distance_value):
+                  variant_value,impact_value,effect_value,n_clicks,ref_snp_value,noisy_snp_value,Multi_allelic_value,variety_value,generation_value,distance_value):
     global clicker
     
-    final_data_3=pd.DataFrame()  
     final_data_4=pd.DataFrame()  
+    final_data_5=pd.DataFrame()  
     if n_clicks > clicker:
         if tabs_value == 'Gene_tab':
             #if Geno_value == 'all' and chrome_name_value=='all' and start_pos_value == 'all' and end_pos_value == 'all':
@@ -321,31 +342,38 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
         final_data_1=final_data[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','Treatment','Dose','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']]
         clicker=clicker+1
         print(final_data_1.head(10))
-        if noisy_value == True:
+        # Filtering for the REF(0/0) Allele
+        if ref_snp_value == True:
             final_data_2=final_data_1
         else:
             print(final_data_1.head(10))
             final_data_2=final_data_1[final_data_1['GT'] != '0/0']
-        print(variety_value)
-        if variety_value == [['NA']]:
+        # Filtering for the Noisy data(.)    
+        if noisy_snp_value == True:
             final_data_3=final_data_2
         else:
-            for i in variety_value:
-                final_data_3=final_data_3.append(final_data_2[final_data_2['Variety']==i])
-                
-        if generation_value == [['NA']]:
+            final_data_3=final_data_2[final_data_2['GT'] != '.']
+        # Filter for the variety and handling the values if the user has not entered any value in the passport data.
+        if variety_value == [['NA']]:
             final_data_4=final_data_3
         else:
+            for i in variety_value:
+                final_data_4=final_data_4.append(final_data_3[final_data_3['Variety']==i])
+        
+        # Filter for the generation and handling the values if the user has not entered any value in the passport data.
+        if generation_value == [['NA']]:
+            final_data_5=final_data_4
+        else:
             for i in generation_value:
-                final_data_4= final_data_4.append(final_data_3[final_data_3['Variety']==i])
+                final_data_5= final_data_5.append(final_data_4[final_data_4['Variety']==i])
         
             
     else:
-        final_data_3=pd.DataFrame(columns=[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','Treatment','Dose','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']],data=None)
+        final_data_5=pd.DataFrame(columns=[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','Treatment','Dose','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']],data=None)
     #final_data_3.replace(np.NaN,'NA')
-    print(final_data_3.head())
+    print(final_data_5.head())
 
-    return final_data_3.to_dict('records')
+    return final_data_5.to_dict('records')
 
 
     
