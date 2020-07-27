@@ -35,22 +35,23 @@ chromosome_name=pd.read_csv(r'data/chromosome_name_mapping.csv',delimiter='\t',e
 Genotype_Data=pd.read_csv(r'data/Genotype_Data.csv',delimiter='\t',encoding='UTF-8')
 passport=pd.read_csv(r'data/passport.csv',delimiter='\t',encoding='UTF-8')
 
-passport.replace(np.NaN,'NA')
+passport.replace(np.NaN,'NA',inplace=True)
 
 Genotype_Data_1=pd.melt(Genotype_Data,id_vars=['CHROM','POS'],var_name='Sample_ID',value_name='GT')
+# Adding a unique column based on Chromosome name and Position. in both the Genotype_Data_1 file and SnpSiftData file.
 Genotype_Data_1['Chrom_Pos']=Genotype_Data_1['CHROM'].astype(str).str.cat(Genotype_Data_1['POS'].astype(str),sep='_')
+SnpSiftData['Chrom_Pos']=SnpSiftData['CHROM'].astype(str).str.cat(SnpSiftData['POS'].astype(str),sep='_')
+# Adding the information {Variety, Generation} from the passport file into Genotype_Data_1 file. 
 Genotype_Data_1.insert(4,'Variety',Genotype_Data_1['Sample_ID'].map(passport.set_index('Sample-ID')['Variety']))
 Genotype_Data_1.insert(5,'Generation',Genotype_Data_1['Sample_ID'].map(passport.set_index('Sample-ID')['Generation']))  
-SnpSiftData['Chrom_Pos']=SnpSiftData['CHROM'].astype(str).str.cat(SnpSiftData['POS'].astype(str),sep='_')
+# Adding the chromosome names from the chromosome_name file.(Note the names will the same at first but if the user updates them they will be updated)
 SnpSiftData.insert(5,'chrome_name',SnpSiftData['CHROM'].map(chromosome_name.set_index('Contig')['Chromosome']))
 clicker=0
+# Hard coded variants(As discussed with Norman)
 variants=['complex','snp','mnp','del','ins']
-impact=['HIGH','LOW','MODERATE','MODIFIER']
-# assume you have a "wide-form" data frame with no index
-# see https://plotly.com/python/wide-form/ for more options
-df = pd.DataFrame({"x": [1, 2, 3], "SF": [4, 1, 2], "Montreal": [2, 4, 5]})
 
-#fig = px.bar(df, x="x", y=["SF", "Montreal"], barmode="group")
+
+# Defining the variant_options, impact_options and effect_options. Also adding the value all in the options
 variant_options=[{'label':i, 'value':i} for i in SnpSiftData.TYPE.unique() ]
 variant_options.insert(0,x)
 impact_options=[{'label':i, 'value':i} for i in SnpSiftData['ANN[*].IMPACT'].unique()]
@@ -58,6 +59,7 @@ impact_options.insert(0,x)
 effect_options=[{'label':i, 'value':i} for i in SnpSiftData['ANN[*].EFFECT'].unique()]
 effect_options.insert(0,x)
 
+# HTML definition what will be displyed on the page.
 app.layout =html.Div(children=[
     html.Div(className='container',children=[
         
@@ -77,6 +79,7 @@ app.layout =html.Div(children=[
 					]),
 				html.Div(children=[
 					html.Div(children=[
+# Defining different Tabs for the Gene Identifier, Range and Position
 						dcc.Tabs(id='tabs_id',value='Gene_tab',children=[
 							dcc.Tab(label='Gene Identifier',value='Gene_tab',children=[
 								html.Div(children=[
@@ -127,12 +130,12 @@ app.layout =html.Div(children=[
                         dcc.Tab(label='Variant Type',value='variants_tab',children=[
                             dcc.Checklist(id='variant',
                                           options=[{'label':i,'value':i} for i in variants],
-                                          value=['complex','snp','mnp','del','ins'])
+                                          value=['complex','snp','mnp','del','ins'])# Hard coded values which will always remain the same unless changed the variants value above.
                         ],style=tab_style, selected_style=tab_selected_style),
                         dcc.Tab(label='Impact Type',value='impact_tab',children=[
                             dcc.Checklist(id='impact',
-                                          options=[{'label':i,'value':i} for i in impact],
-                                          value=['HIGH','LOW','MODERATE','MODIFIER'])
+                                          options=[{'label':i,'value':i} for i in SnpSiftData['ANN[*].IMPACT'].unique()],
+                                          value= SnpSiftData['ANN[*].IMPACT'].unique())
                         ],style=tab_style, selected_style=tab_selected_style),
                         dcc.Tab(label='Effect Type',value='effect_tab',children=[
                             dcc.Dropdown(id='effect_type',
@@ -147,12 +150,12 @@ app.layout =html.Div(children=[
                         dcc.Tab(label='Variety',value='variety_tab',children=[
                             dcc.Checklist(id='variety',
                                           options=[{'label':i,'value':i} for i in Genotype_Data_1.Variety.unique()],
-                                          value=['Venetia','Caturra','Catuai'])
+                                          value=Genotype_Data_1.Variety.unique())
                         ],style=tab_style, selected_style=tab_selected_style),
                         dcc.Tab(label='Generation',value='generation_tab',children=[
                             dcc.Checklist(id='generation',
                                          options=[{'label':i,'value':i} for i in Genotype_Data_1.Generation.unique()],
-                                         value=['M0'])
+                                         value=Genotype_Data_1.Generation.unique())
                         ],style=tab_style, selected_style=tab_selected_style),
                     ])
 				],style={"border":"3px blue dotted"}),
@@ -318,14 +321,19 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
         else:
             print(final_data_1.head(10))
             final_data_2=final_data_1[final_data_1['GT'] != '0/0']
-            
-        for i in variety_value:
-            final_data_3=final_data_3.append(final_data_2[final_data_2['Variety']==i])
+        print(variety_value)
+        if variety_value == [['NA']]:
+            final_data_3=final_data_2
+        else:
+            for i in variety_value:
+                final_data_3=final_data_3.append(final_data_2[final_data_2['Variety']==i])
         
             
     else:
         final_data_3=pd.DataFrame(columns=[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']],data=None)
     #final_data_3.replace(np.NaN,'NA')
+    print(final_data_3.head())
+
     return final_data_3.to_dict('records')
 
 
