@@ -328,7 +328,7 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
             
             test_data=SnpSiftData[SnpSiftData['chrome_name']==chrome_name_value]
             if start_pos_value != 'all' and end_pos_value != 'all':
-                test_data_1=test_data[start_pos_value < test_data['POS'] and test_data['POS'] < end_pos_value]
+                test_data_1=test_data[np.logical_and(start_pos_value <= test_data['POS'], test_data['POS'] <= end_pos_value)]
             else:
                 test_data_1=test_data
             filtered_data=filters(test_data_1,variant_value,impact_value,effect_value,Multi_allelic_value)
