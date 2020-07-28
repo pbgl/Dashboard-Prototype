@@ -253,7 +253,7 @@ app.layout =html.Div(children=[
                                              'fontcolor':'#0000FF',
                                              'fontWeight': 'bold'},
                                          style_cell_conditional=[{'textAlign': 'left'}],
-                                         css=[{'selector': 'table', 'rule': 'width: 100%;'},{'selector': '.dash-spreadsheet.dash-freeze-top, .dash-spreadsheet .dash-virtualized', 'rule': 'max-height: 900px;'}] #for fixing the table full page view. 
+                                         css=[{'selector': 'table', 'rule': 'width: 100%;'},{'selector': '.dash-spreadsheet.dash-freeze-top, .dash-spreadsheet .dash-virtualized', 'rule': 'max-height: calc(100vh - 20px) ;'}] #for fixing the table full page view. 
                                          )
                     ],style={'height':'100%'})
                 ])
