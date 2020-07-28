@@ -208,7 +208,12 @@ app.layout =html.Div(children=[
                 html.Div(className='right',children=[
                     html.Button(id='search_button',n_clicks=0, children='Search',style={'backgroundColor':'#FF0000','color':'black','fontWeight': 'bold',
                                                                                         'padding-left':'25%', 'padding-right':'25%','float':'center'})
-                ]),
+                    ]),
+                html.Div(children=[
+                    html.Footer(children=['This DashBoard was developed by Anza Ghaffar and Norman Warthmann. ',html.Br(),
+                                         '© 2020 Plant Breeding and Genetics Laboratory of the FAO/IAEA Joint Division.'],
+                                style={'color':'#056aae','fontWeight': 'bold'})
+                    ])
             ])
         ]),
         html.Div(className='right_container',children=[
@@ -238,15 +243,17 @@ app.layout =html.Div(children=[
                                          sort_mode="multi",
                                          page_action='none',
                                          fixed_rows={'headers': True,'data':0},
-                                         style_table={'maxheight': '1500','overflowY':'scroll'},
+                                         style_table={'minheight': '100%','maxheight': '100%','minwidth':'100%','overflowY':'auto'},
                                          filter_action='native',
                                          style_data={'width': '{}%'.format(100. / 17), # 17 is the number of columns to display on the page as a result.
-                                                     'border': '1px solid #0000FF' },
+                                                     'border': '1px solid #0000FF',
+                                                     'minheight':'100%' },
                                          style_header={
                                              'backgroundColor': '#C0C0C0',
                                              'fontcolor':'#0000FF',
                                              'fontWeight': 'bold'},
                                          style_cell_conditional=[{'textAlign': 'left'}],
+                                         css=[{'selector': 'table', 'rule': 'width: 100%;'},{'selector': '.dash-spreadsheet.dash-freeze-top, .dash-spreadsheet .dash-virtualized', 'rule': 'max-height: 900px;'}] #for fixing the table full page view. 
                                          )
                     ],style={'height':'100%'})
                 ])

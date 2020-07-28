@@ -1,25 +1,5 @@
-.content{
- width: 100%;
- height: 80%;
- background: #F7F7F7;
- }
-
-all.right_content{
- width:85%;
- height:100%;
- position:absolute;
- top: 0;
- right: 0; 
- }
-
-.left_menu {
-style=tab_style, selected_style=tab_selected_style width: 15%;
- position: absolute;
- top: 0;
- left: 0;
- height: 100%;
- z-index: 999;
- background: #2A3F54;
+.dash-spreadsheet.dash-freeze-top, .dash-spreadsheet.dash-virtualized {
+    max-height: 900px;
 }
 
 /* Table of contents
@@ -60,7 +40,7 @@ style=tab_style, selected_style=tab_selected_style width: 15%;
 /* Grid
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .container {
-  width: 80%;
+  width: 100%;
   height:100%  
   top:5px;
   }
