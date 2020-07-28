@@ -81,7 +81,7 @@ This will generate all required data tables.
 * chromosome_name_mapping.tab
 
 The user now has the option to edit **passport.tab** in order to add details to individual samples. In **chromosome_name_mapping.tab** custom chromosome identifiers can be provided in the "Chromosome" column. 
-Note that subsequent runs of the parser (**vcf_to_datatables.sh**) will overwrite the existing files. Details on how the tables are generated can be found :ref:`further below <Details on generating the data tables>`.
+Note that subsequent runs of the parser (**vcf_to_datatables.sh**) will overwrite the existing files. Details on how the tables are generated can be found further below.
 
 ----------------------
 Creating the Dashboard
@@ -127,7 +127,10 @@ This file is created from the <inputfile.vcf/bcf> by utils/vcf_to_datatables.sh 
 
 .. code-block:: python
 
-    bcftools view <inputfile.vcf/bcf> | grep -v "start_retained_variant" | $CONDA_PREFIX/share/snpsift-*/scripts/vcfEffOnePerLine.pl | SnpSift extractFields -e "NA" - "ANN[*].GENE" "ANN[*].DISTANCE" CHROM POS ID REF ALT TYPE "ANN[*].IMPACT" "ANN[*].EFFECT" "ANN[*].FEATURE" "ANN[*].FEATUREID" "ANN[*].BIOTYPE" "ANN[*].RANK" > data/snpsiftdata.tab
+    bcftools view <inputfile.vcf/bcf> | grep -v "start_retained_variant" | \
+    $CONDA_PREFIX/share/snpsift-*/scripts/vcfEffOnePerLine.pl | \
+    SnpSift extractFields -e "NA" - "ANN[*].GENE" "ANN[*].DISTANCE" CHROM POS ID REF ALT TYPE "ANN[*].IMPACT" "ANN[*].EFFECT" "ANN[*].FEATURE" "ANN[*].FEATUREID" "ANN[*].BIOTYPE" "ANN[*].RANK" \
+    > data/snpsiftdata.tab
 
 
 
@@ -143,7 +146,8 @@ This file is created from the <inputfile.vcf/bcf> by utils/vcf_to_datatables.sh 
 .. code-block:: bash
 
     printf "Contig\\tChromosome\n" > data/chromosome_name_mapping.tab
-    bcftools view -h <inputfile.vcf/bcf> | grep "##cont"| awk -F "=|," '{print $3 "\t" $3}' >> data/chromosome_name_mapping.tab
+    bcftools view -h <inputfile.vcf/bcf> | grep "##cont"| \
+    awk -F "=|," '{print $3 "\t" $3}' >> data/chromosome_name_mapping.tab
 
 Information on chromosome names is extracted from the vcf/bcf file and recorded twice (in 2 columns), as "Contig" and "Chromosome". 
 The "Contig" column must remain unchanged. By editing the "Chromosome" column the user has the option of mapping the "Contig" names to custom chromosome identifiers.  
@@ -160,7 +164,7 @@ This file is created from the <inputfile.vcf/bcf> by utils/vcf_to_datatables.sh 
     CHROM_POS=$(printf "CHROM\\tPOS\\t");
     SAMPLE_NAMES=$(bcftools query -l <inputfile.vcf/bcf> | paste -s -d "\t" -)
     echo "$CHROM_POS$SAMPLE_NAMES"> data/genotype_data.tab
-    bcftools view <inputfile.vcf/bcf> | bcftools query -f "%CHROM\t%POS[\t%GT]\n">> data/genotype_data.tab
+    bcftools view <inputfile.vcf/bcf> | bcftools query -f "%CHROM\t%POS[\t%GT]\n" >> data/genotype_data.tab
 
 It simply extracts
 
@@ -179,7 +183,6 @@ This table is initially populated with the sample names found in the vcf/bcf fil
     for i in ${a[*]}; do
        echo -e $i$b >> data/passport.tab;
     done
-
 
 
 Example **passport.tab** file:
@@ -201,7 +204,7 @@ Copyright information
 This Dashboard was developed by Anza Ghaffar and Norman Warthmann, 
 © 2020 `Plant Breeding and Genetics Laboratory of the FAO/IAEA Joint Division <http://www-naweb.iaea.org/nafa/pbg/index.html>`_.
 If you find this DashBoard useful and want to use in in your own research, please get in touch by emailing
-n.warthmann@iaea.org. We are happy to provide a annotated vcf/bcf for testing.
+n.warthmann@iaea.org. We are happy to provide an annotated vcf/bcf for testing.
 
 
 
