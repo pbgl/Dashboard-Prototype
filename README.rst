@@ -5,13 +5,10 @@ Mutants Browser DashBoard
 of the `Plant Breeding and Genetics Laboratory, FAO/IAEA Joint Division <http://www-naweb.iaea.org/nafa/pbg/index.html>`_
 
 
-.. image:: https://img.shields.io/conda/dn/bioconda/snakemake.svg?label=Bioconda
-    :target: https://bioconda.github.io/recipes/snakemake/README.html
-
-.. image:: https://img.shields.io/badge/Bioconda-up%20todate-green
+.. image:: https://img.shields.io/badge/Bioconda-up%20todate-brightgreen
     :target: https://bioconda.github.io/
 
-.. image:: https://img.shields.io/pypi/pyversions/snakemake.svg
+.. image:: https://img.shields.io/badge/python-3.5-blue
     :target: https://www.python.org
 
 .. .. raw:: html
