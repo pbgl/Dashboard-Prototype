@@ -372,7 +372,7 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
             final_data_5=final_data_4
         else:
             for i in generation_value:
-                final_data_5= final_data_5.append(final_data_4[final_data_4['Variety']==i])
+                final_data_5= final_data_5.append(final_data_4[final_data_4['Generation']==i])
         
             
     else:
