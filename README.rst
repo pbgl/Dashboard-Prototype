@@ -207,7 +207,7 @@ This file is created from the <inputfile.vcf/bcf> by **utils/vcf_to_datatables.s
     awk -F "=|," '{print $3 "\t" $3}' >> data/chromosome_name_mapping.tab
 
 The chromosome names are extracted from the vcf/bcf file and recorded twice (in 2 columns), as "Contig" and "Chromosome".
-The "Contig" column must remain unchanged. By editing the "Chromosome" column The user has the option of mapping the "Contig" names to custom chromosome identifiers by editing the "Chromosome" column.
+The "Contig" column must remain unchanged. The user has the option of mapping the "Contig" names to custom chromosome identifiers by editing the "Chromosome" column.
 
 
 *********************
@@ -217,7 +217,7 @@ Copyright information
 This Dashboard was developed by Anza Ghaffar and Norman Warthmann, 
 © 2020 `Plant Breeding and Genetics Laboratory of the FAO/IAEA Joint Division <http://www-naweb.iaea.org/nafa/pbg/index.html>`_.
 If you find this DashBoard useful and want to use in in your own research, please get in touch by emailing
-n.warthmann@iaea.org. We are happy to provide an annotated vcf/bcf for testing.
+n.warthmann@iaea.org. We are happy to provide an annotated vcf/bcf to help getting started.
 
 
 
