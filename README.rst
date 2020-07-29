@@ -8,6 +8,9 @@ of the `Plant Breeding and Genetics Laboratory, FAO/IAEA Joint Division <http://
 .. image:: https://img.shields.io/conda/dn/bioconda/snakemake.svg?label=Bioconda
     :target: https://bioconda.github.io/recipes/snakemake/README.html
 
+.. image:: https://img.shields.io/badge/Bioconda-up%20todate-green
+    :target: https://bioconda.github.io/
+
 .. image:: https://img.shields.io/pypi/pyversions/snakemake.svg
     :target: https://www.python.org
 
