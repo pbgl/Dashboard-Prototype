@@ -89,7 +89,8 @@ This will generate all required data tables.
 * chromosome_name_mapping.tab
 
 The user now has the option to edit **passport.tab** in order to add details to individual samples. In **chromosome_name_mapping.tab** custom chromosome identifiers can be provided in the "Chromosome" column. 
-Note that subsequent runs of the parser (**vcf_to_datatables.sh**) will overwrite the existing files. Details on how the tables are generated can be found further below.
+Note that subsequent runs of the parser (**vcf_to_datatables.sh**) will overwrite the existing files in ./data. Details on how the tables are generated can be found further below.
+
 
 ----------------------
 Creating the Dashboard
@@ -118,6 +119,7 @@ The DashBoard's display name can be configured by editing the "institution" and 
 
 .. _Details on generating the data tables:
 
+
 *************************************
 Details on generating the data tables
 *************************************
@@ -131,7 +133,7 @@ The commands are easily tested and adjusted to meet specific needs. Example data
 SnpSift Data (snpsiftdata.tab)
 -------------
 
-This file is created from the <inputfile.vcf/bcf> by utils/vcf_to_datatables.sh like so:
+This file is created from the <inputfile.vcf/bcf> by **utils/vcf_to_datatables.sh** like so:
 
 .. code-block:: python
 
@@ -140,32 +142,15 @@ This file is created from the <inputfile.vcf/bcf> by utils/vcf_to_datatables.sh 
     SnpSift extractFields -e "NA" - "ANN[*].GENE" "ANN[*].DISTANCE" CHROM POS ID REF ALT TYPE "ANN[*].IMPACT" "ANN[*].EFFECT" "ANN[*].FEATURE" "ANN[*].FEATUREID" "ANN[*].BIOTYPE" "ANN[*].RANK" \
     > data/snpsiftdata.tab
 
-
-
-It uses snpEff/SnpSifts own functionality and scripts to extract the relevant information per variant and effect.
-We are excluding lines with effect type "start_retained_variant", because SnpSift does not seem to understand this effect type.
-
------------------------------------------------------
-Chromosome Name Mapping (chromosome_name_mapping.tab)
------------------------------------------------------
-
-This file is created from the <inputfile.vcf/bcf> by utils/vcf_to_datatables.sh like so:
-
-.. code-block:: bash
-
-    printf "Contig\\tChromosome\n" > data/chromosome_name_mapping.tab
-    bcftools view -h <inputfile.vcf/bcf> | grep "##cont"| \
-    awk -F "=|," '{print $3 "\t" $3}' >> data/chromosome_name_mapping.tab
-
-Information on chromosome names is extracted from the vcf/bcf file and recorded twice (in 2 columns), as "Contig" and "Chromosome". 
-The "Contig" column must remain unchanged. By editing the "Chromosome" column the user has the option of mapping the "Contig" names to custom chromosome identifiers.  
+It uses snpEff/SnpSifts own functionality and scripts to extract the relevant annotation and effect information per variant.
+We are excluding lines containing "start_retained_variant", because the most recent SnpSift version we used (4.3.1t) does not seem to understand this effect type.
 
 
 ---------------------------------
 Genotype Data (genotype_data.tab)
 ---------------------------------
 
-This file is created from the <inputfile.vcf/bcf> by utils/vcf_to_datatables.sh like so:
+This file is created from the <inputfile.vcf/bcf> by **utils/vcf_to_datatables.sh** like so:
 
 .. code-block:: bash
 
@@ -174,14 +159,14 @@ This file is created from the <inputfile.vcf/bcf> by utils/vcf_to_datatables.sh 
     echo "$CHROM_POS$SAMPLE_NAMES"> data/genotype_data.tab
     bcftools view <inputfile.vcf/bcf> | bcftools query -f "%CHROM\t%POS[\t%GT]\n" >> data/genotype_data.tab
 
-It simply extracts
+It simply extracts genotypes for all samples at all variant Chromosome/Positions. 
+
 
 ----------------------------
 Passport Data (passport.tab)
 ----------------------------
 
-This table is initially populated with the sample names found in the vcf/bcf file in the "Sample-ID" column and "NA" in each of the data columns. The user has the option to edit this file to provide the relevant passport information for each of the samples. "Sample-ID" must not be edited. It must be a complete list of samples from the vcf/bcf file and must match the sample names. 
- 
+This table is initially populated with the sample names found in the vcf/bcf file in the "Sample-ID" column and "NA" in each of the data columns. 
 
 .. code-block:: bash
 
@@ -192,6 +177,9 @@ This table is initially populated with the sample names found in the vcf/bcf fil
        echo -e $i$b >> data/passport.tab;
     done
 
+
+The user has the option to edit this file and replace respective "NA"s with relevant information for each of the samples. 
+"Sample-ID" is the primary key and must not be edited. Llines must not be removed.
 
 Example **passport.tab** file (after manual editing):
 
@@ -204,6 +192,23 @@ Example **passport.tab** file (after manual editing):
       +-----------+-------------+-----------+-----------+------------+------------+--------+
       | 1-E2      | Ca-2018-030 | NA        | Venetia   | M1         | Gamma      | 50 Gy  |
       +-----------+-------------+-----------+-----------+------------+------------+--------+
+
+
+-----------------------------------------------------
+Chromosome Name Mapping (chromosome_name_mapping.tab)
+-----------------------------------------------------
+
+This file is created from the <inputfile.vcf/bcf> by **utils/vcf_to_datatables.sh** like so:
+
+.. code-block:: bash
+
+    printf "Contig\\tChromosome\n" > data/chromosome_name_mapping.tab
+    bcftools view -h <inputfile.vcf/bcf> | grep "##cont"| \
+    awk -F "=|," '{print $3 "\t" $3}' >> data/chromosome_name_mapping.tab
+
+The chromosome names are extracted from the vcf/bcf file and recorded twice (in 2 columns), as "Contig" and "Chromosome".
+The "Contig" column must remain unchanged. By editing the "Chromosome" column The user has the option of mapping the "Contig" names to custom chromosome identifiers by editing the "Chromosome" column.
+
 
 *********************
 Copyright information
