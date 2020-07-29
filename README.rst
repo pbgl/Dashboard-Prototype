@@ -5,11 +5,19 @@ Mutants Browser DashBoard
 of the `Plant Breeding and Genetics Laboratory, FAO/IAEA Joint Division <http://www-naweb.iaea.org/nafa/pbg/index.html>`_
 
 
+.. image:: https://img.shields.io/badge/python-3.5-blue
+    :target: https://www.python.org
+
 .. image:: https://img.shields.io/badge/Bioconda-up%20todate-brightgreen
     :target: https://bioconda.github.io/
 
-.. image:: https://img.shields.io/badge/python-3.5-blue
-    :target: https://www.python.org
+.. image:: https://img.shields.io/badge/SnpSift-4.3.1t-blue
+    :target: http://snpeff.sourceforge.net/
+
+.. image:: https://img.shields.io/badge/SnpEff-4.5covid19-blue
+    :target: http://snpeff.sourceforge.net/
+
+
 
 .. .. raw:: html
           <span class="__dimensions_badge_embed__" data-doi="https://doi.org/10.1093/bioinformatics/bts480" data-legend="always" data-style="large_rectangle"></span><script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
