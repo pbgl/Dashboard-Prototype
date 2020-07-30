@@ -16,6 +16,6 @@ dependencies:
   - dash-html-components
   - dash-table
   - dash-daq
-  - bcftools
-  - snpeff
-  - snpsift
+  - bcftools>=1.9
+  - snpeff=4.5covid19
+  - snpsift=4.3.1t
