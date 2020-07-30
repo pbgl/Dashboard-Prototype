@@ -360,18 +360,18 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
         else:
             final_data_3=final_data_2[final_data_2['GT'] != '.']
         # Filter for the variety and handling the values if the user has not entered any value in the passport data.
-        #if variety_value == [['NA']]:
-        #    final_data_4=final_data_3
-        #else:
-        for i in variety_value:
-            final_data_4=final_data_4.append(final_data_3[final_data_3['Variety']==i])
+        if variety_value == [['NA']]:
+            final_data_4=final_data_3
+        else:
+            for i in variety_value:
+                final_data_4=final_data_4.append(final_data_3[final_data_3['Variety']==i])
 
         # Filter for the generation and handling the values if the user has not entered any value in the passport data.
-        #if generation_value == [['NA']]:
-        #    final_data_5=final_data_4
-        #else:
-        for i in generation_value:
-            final_data_5= final_data_5.append(final_data_4[final_data_4['Generation']==i])
+        if generation_value == [['NA']]:
+            final_data_5=final_data_4
+        else:
+            for i in generation_value:
+                final_data_5= final_data_5.append(final_data_4[final_data_4['Generation']==i])
 
 
     else:
