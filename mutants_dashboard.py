@@ -54,11 +54,11 @@ Genotype_Data_1=pd.melt(Genotype_Data,id_vars=['CHROM','POS'],var_name='Sample_I
 # Adding a unique column based on Chromosome name and Position. in both the Genotype_Data_1 file and SnpSiftData file.
 Genotype_Data_1['Chrom_Pos']=Genotype_Data_1['CHROM'].astype(str).str.cat(Genotype_Data_1['POS'].astype(str),sep='_')
 SnpSiftData['Chrom_Pos']=SnpSiftData['CHROM'].astype(str).str.cat(SnpSiftData['POS'].astype(str),sep='_')
-# Adding the information {Variety, Generation} from the passport file into Genotype_Data_1 file. 
+# Adding the information {Variety, Generation} from the passport file into Genotype_Data_1 file.
 Genotype_Data_1.insert(4,'Variety',Genotype_Data_1['Sample_ID'].map(passport.set_index('Sample-ID')['Variety']))
 Genotype_Data_1.insert(5,'Generation',Genotype_Data_1['Sample_ID'].map(passport.set_index('Sample-ID')['Generation']))
 Genotype_Data_1.insert(5,'Treatment',Genotype_Data_1['Sample_ID'].map(passport.set_index('Sample-ID')['Treatment']))
-Genotype_Data_1.insert(5,'Dose',Genotype_Data_1['Sample_ID'].map(passport.set_index('Sample-ID')['Dose'])) 
+Genotype_Data_1.insert(5,'Dose',Genotype_Data_1['Sample_ID'].map(passport.set_index('Sample-ID')['Dose']))
 # Adding the chromosome names from the chromosome_name file.(Note the names will the same at first but if the user updates them they will be updated)
 SnpSiftData.insert(5,'chrome_name',SnpSiftData['CHROM'].map(chromosome_name.set_index('Contig')['Chromosome']))
 clicker=0
@@ -77,8 +77,8 @@ effect_options.insert(0,x)
 # HTML definition what will be displyed on the page.
 app.layout =html.Div(children=[
     html.Div(className='container',children=[
-        
-		html.Div(className='left_container',children=[        
+
+		html.Div(className='left_container',children=[
 			html.Div(children=[
 				html.H2(className='h2',children=institution,style={'color': '#056aae'}),
                 html.H3(className='h3',children=tool,style={'color': '#056aae'})
@@ -106,7 +106,7 @@ app.layout =html.Div(children=[
                                     dcc.Input(id='Distance',placeholder='Max Distance from the gene',value='',
                                               style={'marginBottom': '1.5em'},type='number')
                                 ])
-								
+
 							],style=tab_style, selected_style=tab_selected_style),
 							dcc.Tab(label='Range',value='range_tab',children=[
 								html.Div(children=[
@@ -138,7 +138,7 @@ app.layout =html.Div(children=[
 						])
 					])
 				]),#,style={'width': '20%', 'float': 'left'}),
-                
+
 				html.Div(children=[
                     html.H5('Variant Filter'),
                     dcc.Tabs(value='variants_tab',children=[
@@ -191,7 +191,7 @@ app.layout =html.Div(children=[
                                          color='#009DFF',
                                          size=35,
                                          value=False
-                                         ),                        
+                                         ),
                     ],style={'inline':True}),
                     html.Div(children=[
                         html.Div(children='Multi Allelic Variants'),
@@ -204,14 +204,13 @@ app.layout =html.Div(children=[
                                 ),
                     ],style={'inline':True})
                 ],style={"border":"3px black dotted"}),
-                
+
                 html.Div(className='right',children=[
                     html.Button(id='search_button',n_clicks=0, children='Search',style={'backgroundColor':'#FF0000','color':'black','fontWeight': 'bold',
                                                                                         'padding-left':'25%', 'padding-right':'25%','float':'center'})
                     ]),
                 html.Div(children=[
-                    html.Footer(children=['This DashBoard was developed by Anza Ghaffar and Norman Warthmann. ',html.Br(),
-                                         '© 2020 Plant Breeding and Genetics Laboratory of the FAO/IAEA Joint Division.'],
+                    html.Footer(children=['This DashBoard was developed by Anza Ghaffar and Norman Warthmann. © 2020 Plant Breeding and Genetics Laboratory of the FAO/IAEA Joint Division.', html.Br()],
                                 style={'color':'#056aae','fontWeight': 'bold'})
                     ])
             ])
@@ -253,7 +252,7 @@ app.layout =html.Div(children=[
                                              'fontcolor':'#0000FF',
                                              'fontWeight': 'bold'},
                                          style_cell_conditional=[{'textAlign': 'left'}],
-                                         css=[{'selector': 'table', 'rule': 'width: 100%;'},{'selector': '.dash-spreadsheet.dash-freeze-top, .dash-spreadsheet .dash-virtualized', 'rule': 'max-height: calc(100vh - 20px) ;'}] #for fixing the table full page view. 
+                                         css=[{'selector': 'table', 'rule': 'width: 100%;'},{'selector': '.dash-spreadsheet.dash-freeze-top, .dash-spreadsheet .dash-virtualized', 'rule': 'max-height: calc(100vh - 20px) ;'}] #for fixing the table full page view.
                                          )
                     ],style={'height':'100%'})
                 ])
@@ -268,28 +267,28 @@ def filters(test_data,variant_value,impact_value,effect_value,Multi_allelic_valu
     if Multi_allelic_value == True:
         for i in variant_value:
             test_data_1=test_data_1.append(test_data[test_data['TYPE'].str.contains(i)])
-    
+
     if Multi_allelic_value == False:
         for i in variant_value:
             test_data_1=test_data_1.append(test_data[test_data['TYPE']==i])
-        
-        
-    
+
+
+
     if len(impact_value) == 4:
         test_data_2=test_data_1
-        
+
     else:
         for j in impact_value:
             test_data_2=test_data_2.append(test_data_1[test_data_1['ANN[*].IMPACT']==j])
             print(test_data_2)
-        
+
     if effect_value == 'all':
         test_data_3=test_data_2
         print(test_data_3.head())
     else:
         test_data_3=test_data_2[test_data_2['ANN[*].EFFECT']==effect_value]
         print(test_data_3.head())
-        
+
     return test_data_3
 
 
@@ -315,9 +314,9 @@ def filters(test_data,variant_value,impact_value,effect_value,Multi_allelic_valu
 def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_pos_value,choromosome_name_third_tab,pos_third_tab,
                   variant_value,impact_value,effect_value,n_clicks,ref_snp_value,noisy_snp_value,Multi_allelic_value,variety_value,generation_value,distance_value):
     global clicker
-    
-    final_data_4=pd.DataFrame()  
-    final_data_5=pd.DataFrame()  
+
+    final_data_4=pd.DataFrame()
+    final_data_5=pd.DataFrame()
     if n_clicks > clicker:
         if tabs_value == 'Gene_tab':
             #if Geno_value == 'all' and chrome_name_value=='all' and start_pos_value == 'all' and end_pos_value == 'all':
@@ -328,23 +327,23 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
                 test_data=test_data
             else:
                 test_data=test_data[test_data['ANN[*].DISTANCE'] <= distance_value]
-                
+
             filtered_data=filters(test_data,variant_value,impact_value,effect_value,Multi_allelic_value)
             print('Gene Tab Initiated')
         if tabs_value == 'range_tab':
-            
+
             test_data=SnpSiftData[SnpSiftData['chrome_name']==chrome_name_value]
             if start_pos_value != 'all' and end_pos_value != 'all':
                 test_data_1=test_data[np.logical_and(start_pos_value <= test_data['POS'], test_data['POS'] <= end_pos_value)]
             else:
                 test_data_1=test_data
             filtered_data=filters(test_data_1,variant_value,impact_value,effect_value,Multi_allelic_value)
-                
+
         if tabs_value == 'Pos_tab':
             test_data=SnpSiftData[SnpSiftData['chrome_name']==choromosome_name_third_tab]
             test_data_1=test_data[test_data['POS'] == pos_third_tab]
             filtered_data=filters(test_data_1,variant_value,impact_value,effect_value,Multi_allelic_value)
-        
+
         final_data=pd.merge(Genotype_Data_1,filtered_data,on='Chrom_Pos')
         final_data_1=final_data[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','Treatment','Dose','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']]
         clicker=clicker+1
@@ -355,26 +354,26 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
         else:
             print(final_data_1.head(10))
             final_data_2=final_data_1[final_data_1['GT'] != '0/0']
-        # Filtering for the Noisy data(.)    
+        # Filtering for the Noisy data(.)
         if noisy_snp_value == True:
             final_data_3=final_data_2
         else:
             final_data_3=final_data_2[final_data_2['GT'] != '.']
         # Filter for the variety and handling the values if the user has not entered any value in the passport data.
-        if variety_value == [['NA']]:
-            final_data_4=final_data_3
-        else:
-            for i in variety_value:
-                final_data_4=final_data_4.append(final_data_3[final_data_3['Variety']==i])
-        
+        #if variety_value == [['NA']]:
+        #    final_data_4=final_data_3
+        #else:
+        for i in variety_value:
+            final_data_4=final_data_4.append(final_data_3[final_data_3['Variety']==i])
+
         # Filter for the generation and handling the values if the user has not entered any value in the passport data.
-        if generation_value == [['NA']]:
-            final_data_5=final_data_4
-        else:
-            for i in generation_value:
-                final_data_5= final_data_5.append(final_data_4[final_data_4['Variety']==i])
-        
-            
+        #if generation_value == [['NA']]:
+        #    final_data_5=final_data_4
+        #else:
+        for i in generation_value:
+            final_data_5= final_data_5.append(final_data_4[final_data_4['Generation']==i])
+
+
     else:
         final_data_5=pd.DataFrame(columns=[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','Treatment','Dose','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']],data=None)
     #final_data_3.replace(np.NaN,'NA')
@@ -383,9 +382,9 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
     return final_data_5.to_dict('records')
 
 
-    
-    
-    
+
+
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
