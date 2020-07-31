@@ -373,7 +373,6 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
             for i in generation_value:
                 final_data_5= final_data_5.append(final_data_4[final_data_4['Generation']==i])
 
-
     else:
         final_data_5=pd.DataFrame(columns=[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','Treatment','Dose','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']],data=None)
     #final_data_3.replace(np.NaN,'NA')
