@@ -43,10 +43,10 @@ tab_selected_style = {
 app = dash.Dash(__name__)
 
 # Importing data
-SnpSiftData=pd.read_csv(r'data/snpsiftdata.tab',delimiter='\t',encoding='UTF-8')
-chromosome_name=pd.read_csv(r'data/chromosome_name_mapping.tab',delimiter='\t',encoding='UTF-8')
+SnpSiftData=pd.read_csv(r'data/snpsiftdata.tab.txt',delimiter='\t',encoding='UTF-8')
+chromosome_name=pd.read_csv(r'data/chromosome_name_mapping.tab.txt',delimiter='\t',encoding='UTF-8')
 Genotype_Data=pd.read_csv(r'data/genotype_data.tab',delimiter='\t',encoding='UTF-8')
-passport=pd.read_csv(r'data/passport.tab',delimiter='\t',encoding='UTF-8')
+passport=pd.read_csv(r'data/passport.tab.txt',delimiter='\t',encoding='UTF-8')
 
 passport.replace(np.NaN,'NA',inplace=True)
 
@@ -223,7 +223,7 @@ app.layout =html.Div(children=[
                                              {'name':'Gene','id':'ANN[*].GENE','type':'text'},
                                              {'name':'Chromosome','id':'chrome_name','type':'text'},
                                              {'name':'Contig','id':'CHROM_x','type':'text'},
-                                             {'name':'Position','id':'POS_y','type':'text'},
+                                             {'name':'Position','id':'POS_y','type':'numeric'},
                                              {'name':'Sample_ID','id':'Sample_ID','type':'text'},
                                              {'name':'Variety','id':'Variety','type':'text'},
                                              {'name':'Generation','id':'Generation','type':'text'},
