@@ -223,7 +223,7 @@ app.layout =html.Div(children=[
                                              {'name':'Gene','id':'ANN[*].GENE','type':'text'},
                                              {'name':'Chromosome','id':'chrome_name','type':'text'},
                                              {'name':'Contig','id':'CHROM_x','type':'text'},
-                                             {'name':'Position','id':'POS_y','type':'text'},
+                                             {'name':'Position','id':'POS_y','type':'numeric'},
                                              {'name':'Sample_ID','id':'Sample_ID','type':'text'},
                                              {'name':'Variety','id':'Variety','type':'text'},
                                              {'name':'Generation','id':'Generation','type':'text'},
@@ -380,10 +380,6 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
     print(final_data_5.head())
 
     return final_data_5.to_dict('records')
-
-
-
-
 
 
 if __name__ == '__main__':
