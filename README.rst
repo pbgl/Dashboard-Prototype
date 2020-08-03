@@ -73,7 +73,7 @@ Once created, activate the environment **Dashboard** like so:
 Creating the data tables
 -------------------------
 
-Prerequisite is a vcf/bcf file that has been run through SnpEeff to annotated the variant's effects (http://snpeff.sourceforge.net/). 
+Prerequisite is a vcf/bcf file that has been run through SnpEeff to annotate the variant's effects (http://snpeff.sourceforge.net/). 
 On such annotated vcf/bcf file run the parser script like so:
 
 .. code-block:: bash
@@ -217,7 +217,7 @@ Copyright information
 This Dashboard was developed by Anza Ghaffar and Norman Warthmann, 
 © 2020 `Plant Breeding and Genetics Laboratory of the FAO/IAEA Joint Division <http://www-naweb.iaea.org/nafa/pbg/index.html>`_.
 If you find this DashBoard useful and want to use in in your own research, please get in touch by emailing
-n.warthmann@iaea.org. We are happy to provide an annotated vcf/bcf to help getting started.
+n.warthmann@iaea.org. We are happy to provide an annotated vcf/bcf to help you getting started.
 
 
 
