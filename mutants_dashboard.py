@@ -15,10 +15,26 @@ import dash_daq as daq
 institution='FAO/IAEA-PBGL'
 tool='Coffee Mutants Browser'
 
+###########################################
+## production mode
+#import flask
+#server = flask.Flask(__name__)
+#app = dash.Dash(__name__, server=server)
+
+## then invoke the tool in the server like so:
+## gunicorn mutants_dashboard:server -b :8000
+
+
+############################################
+## local/devlopment mode
+app = dash.Dash(__name__)
+
+## then invoke the tool on localhost like so
+## python mutants_dashboard.py
+
+############################################
 # Dont change below this line
 ############################################
-
-
 
 
 '''my_file=open('format.css','r')
@@ -40,7 +56,6 @@ tab_selected_style = {
     'color': 'white',
     'padding': '6px'
 }
-app = dash.Dash(__name__)
 
 # Importing data
 SnpSiftData=pd.read_csv(r'data/snpsiftdata.tab',delimiter='\t',encoding='UTF-8')
@@ -379,10 +394,6 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
     print(final_data_5.head())
 
     return final_data_5.to_dict('records')
-
-
-
-
 
 
 if __name__ == '__main__':
