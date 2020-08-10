@@ -5,7 +5,7 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 import dash_table
-from dash.dependencies import Input, Output,State
+from dash.dependencies import Input, Output, State
 import dash_daq as daq
 import dash_bootstrap_components as dbc
 
@@ -277,7 +277,7 @@ app.layout =html.Div(children=[
                 html.Div(children=[
                     dbc.Modal([
                         dbc.ModalHeader(children="Info"),
-                        dbc.ModalBody(children="This search had no result, try a different search or press escape to close this note.",style={
+                        dbc.ModalBody(children="This search had no result. Try a different search. You can press ESC to close this note.",style={
                             'fontWeight': 'bold'
                         }),
                         ],
