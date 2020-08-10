@@ -14,6 +14,7 @@ dependencies:
   - dash
   - dash-core-components
   - dash-html-components
+  - dash-bootstrap-components
   - dash-table
   - dash-daq
   - bcftools>=1.9

@@ -277,7 +277,7 @@ app.layout =html.Div(children=[
                 html.Div(children=[
                     dbc.Modal([
                         dbc.ModalHeader(children="Info"),
-                        dbc.ModalBody(children="This search had no result. Try a different search. You can press ESC to close this note.",style={
+                        dbc.ModalBody(children="This search had no result. Try a different search! (Pressing ESC will close this note.)",style={
                             'fontWeight': 'bold'
                         }),
                         ],
