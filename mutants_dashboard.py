@@ -5,8 +5,9 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 import dash_table
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output,State
 import dash_daq as daq
+import dash_bootstrap_components as dbc
 
 
 
@@ -56,6 +57,8 @@ tab_selected_style = {
     'color': 'white',
     'padding': '6px'
 }
+
+
 
 # Importing data
 SnpSiftData=pd.read_csv(r'data/snpsiftdata.tab',delimiter='\t',encoding='UTF-8')
@@ -269,8 +272,23 @@ app.layout =html.Div(children=[
                                          style_cell_conditional=[{'textAlign': 'left'}],
                                          css=[{'selector': 'table', 'rule': 'width: 100%;'},{'selector': '.dash-spreadsheet.dash-freeze-top, .dash-spreadsheet .dash-virtualized', 'rule': 'max-height: calc(100vh - 20px) ;'}] #for fixing the table full page view.
                                          )
-                    ],style={'height':'100%'})
+                    ],style={'height':'100%'}),
+            html.Div(className="dashboard_message",children=[
+                html.Div(children=[
+                    dbc.Modal([
+                        dbc.ModalHeader(children="Info"),
+                        dbc.ModalBody(children="This search had no result, try a different search or press escape to close this note.",style={
+                            'fontWeight': 'bold'
+                        }),
+                        ],
+                    className="dashboard_message",
+                    id="modal_message",
+                    centered=True,
+                    size="sm",
+                    autoFocus=True)
                 ])
+            ])
+            ])
             ])
         ]),
     ])
@@ -308,7 +326,9 @@ def filters(test_data,variant_value,impact_value,effect_value,Multi_allelic_valu
 
 
 @app.callback(
-    Output('table_data',"data"),
+    [Output('table_data',"data"),
+    Output("modal_message", "is_open"),
+    ],
     [Input('tabs_id',"value"),
      Input('Gene_Identifier',"value"),
      Input('chromosome_name',"value"),
@@ -325,9 +345,12 @@ def filters(test_data,variant_value,impact_value,effect_value,Multi_allelic_valu
      Input('Multi_allelic',"value"),
      Input('variety',"value"),
      Input('generation',"value"),
-     Input('Distance',"value"),])
+     Input('Distance',"value"),],
+     [State("modal_message", "is_open")],
+     )
 def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_pos_value,choromosome_name_third_tab,pos_third_tab,
-                  variant_value,impact_value,effect_value,n_clicks,ref_snp_value,noisy_snp_value,Multi_allelic_value,variety_value,generation_value,distance_value):
+                  variant_value,impact_value,effect_value,n_clicks,ref_snp_value,noisy_snp_value,Multi_allelic_value,variety_value,
+                  generation_value,distance_value,is_open):
     global clicker
 
     final_data_4=pd.DataFrame()
@@ -388,12 +411,22 @@ def GenoFiltering(tabs_value,Geno_value,chrome_name_value,start_pos_value,end_po
             for i in generation_value:
                 final_data_5= final_data_5.append(final_data_4[final_data_4['Generation']==i])
 
+        if len(final_data_5)==0:
+            print(len(final_data_5))
+            is_open = True
+        
+        else:
+            is_open=False
+
     else:
         final_data_5=pd.DataFrame(columns=[['ANN[*].GENE','chrome_name','CHROM_x','POS_y','Sample_ID','Variety','Generation','Treatment','Dose','GT','REF','ALT','TYPE','ANN[*].IMPACT','ANN[*].EFFECT','ANN[*].DISTANCE','ID']],data=None)
     #final_data_3.replace(np.NaN,'NA')
     print(final_data_5.head())
 
-    return final_data_5.to_dict('records')
+
+
+
+    return final_data_5.to_dict('records'),is_open
 
 
 if __name__ == '__main__':
