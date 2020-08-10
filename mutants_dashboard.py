@@ -117,7 +117,7 @@ app.layout =html.Div(children=[
 							dcc.Tab(label='Gene Identifier',value='Gene_tab',children=[
 								html.Div(children=[
 									html.H5(children='Gene Name:',style={'color':'red'}),
-									dcc.Input(id='Gene_Identifier',placeholder='Type to pick some TAIR IDs...',value='all',style={'marginBottom': '1.5em'})
+									dcc.Input(id='Gene_Identifier',placeholder='Enter a known gene identifier',value='all',style={'marginBottom': '1.5em'})
                                     ]),
                                 html.Div(children=[
                                     html.H5(children='Max Distance from Gene (bp):',style={'color':'red'}),
