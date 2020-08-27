@@ -224,10 +224,9 @@ The Dasboard's name, displayed in the upper left corner, is easily customised by
 Deployment
 ----------
 
-There are twe modes of deployment. On localhost or via the internet. They are mutually exclusive and when changing the code make sure the correct lines are commented/uncommented:
+There are twe modes of deployment. On localhost or via the internet. They are mutually exclusive and when changing the code make sure the correct lines are commented/uncommented.
 
-
-For a local/development deployment edit mutants_dashboard.py and make sure that the correct lines are present/uncommented:
+For a **local/development** deployment edit mutants_dashboard.py and make sure that it looks as below:
 
 .. code-block:: python
 
@@ -252,8 +251,10 @@ then invoke the tool on localhost like so
 
     python mutants_dashboard.py
 
+Upon startup it will report where it is running, the default is localhost port 8050. http://127.0.0.1:8050/
 
-For Internet/Production Deployment: In mutants_dashboard.py make sure that these lines are present/uncommented:
+
+For **internet/production** deployment: In mutants_dashboard.py change the commenting that it looks like so:
 
 
 .. code-block:: python 
@@ -276,10 +277,7 @@ Then invoke the tool in the server. For example like so:
     gunicorn mutants_dashboard:server -b :8000
 
 
-For local/devlopment mode
-
-
-
+It can then be reached on the respective server on port 8000. E.g., http://0.0.0.0:8000
 
 *********************
 Usage
