@@ -211,6 +211,15 @@ The "Contig" column must remain unchanged. The user has the option of mapping th
 
 
 *********************
+Usage
+*********************
+
+.. image:: assets/Dashboard_example_coffee.png
+  :width: 600
+  :alt: This should be a screenshot of the Dashboard
+
+
+*********************
 Copyright information
 *********************
 
