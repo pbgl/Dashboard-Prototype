@@ -297,6 +297,7 @@ If nothing is found, a respective message is displayed. If no such message is di
   :width: 600
   :alt: This should be a screenshot of the Dashboard
 
+Click on the image to enlarge! (will open in new window)
 
 --------------
 Result Columns
