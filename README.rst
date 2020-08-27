@@ -245,7 +245,7 @@ For a **local/development** deployment edit mutants_dashboard.py and make sure t
     app = dash.Dash(__name__)
 
 
-Then invoke the tool on the local machine like so
+Then invoke the tool on the local machine like so:
 
 .. code-block:: python 
 
@@ -296,6 +296,8 @@ If nothing is found, a respective message is displayed. If no such message is di
 .. image:: assets/Dashboard_example_coffee.png
   :width: 600
   :alt: This should be a screenshot of the Dashboard
+
+  Click on the image to enlarge!
 
 --------------
 Result Columns
