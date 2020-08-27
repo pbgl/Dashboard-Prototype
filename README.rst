@@ -135,7 +135,7 @@ SnpSift Data (snpsiftdata.tab)
 
 This file is created from the <inputfile.vcf/bcf> by **utils/vcf_to_datatables.sh** like so:
 
-.. code-block:: python
+.. code-block:: bash
 
     bcftools view <inputfile.vcf/bcf> | grep -v "start_retained_variant" | \
     $CONDA_PREFIX/share/snpsift-*/scripts/vcfEffOnePerLine.pl | \
@@ -209,14 +209,107 @@ This file is created from the <inputfile.vcf/bcf> by **utils/vcf_to_datatables.s
 The chromosome names are extracted from the vcf/bcf file and recorded twice (in 2 columns), as "Contig" and "Chromosome".
 The "Contig" column must remain unchanged. The user has the option of mapping the "Contig" names to custom chromosome identifiers by editing the "Chromosome" column.
 
+-------------------------
+Customising the Dashboard
+-------------------------
+
+The Dasboard's name, displayed in the upper left corner, is easily customised by changing the variables **institution** and **tool**.
+
+.. code-block:: python
+
+    institution='FAO/IAEA-PBGL'
+    tool='Coffee Mutants Browser'
+
+----------
+Deployment
+----------
+
+There are twe modes of deployment. On localhost or via the internet. They are mutually exclusive and when changing the code make sure the correct lines are commented/uncommented:
+
+
+For a local/development deployment edit mutants_dashboard.py and make sure that the correct lines are present/uncommented:
+
+.. code-block:: python
+
+    ###########################################
+    ## production mode
+    #import flask
+    #server = flask.Flask(__name__)
+    #app = dash.Dash(__name__, server=server)
+
+    ## then invoke the tool in the server like so:
+    ## gunicorn mutants_dashboard:server -b :8000
+
+
+    ############################################
+    ## local/devlopment mode
+    app = dash.Dash(__name__)
+
+
+then invoke the tool on localhost like so
+
+.. code-block:: python 
+
+    python mutants_dashboard.py
+
+
+For Internet/Production Deployment: In mutants_dashboard.py make sure that these lines are present/uncommented:
+
+
+.. code-block:: python 
+
+    ###########################################
+    ## production mode
+    import flask
+    server = flask.Flask(__name__)
+    app = dash.Dash(__name__, server=server)
+
+    ############################################
+    ## local/devlopment mode
+    #app = dash.Dash(__name__)
+
+
+Then invoke the tool in the server. For example like so:
+
+.. code-block:: python 
+
+    gunicorn mutants_dashboard:server -b :8000
+
+
+For local/devlopment mode
+
+
+
 
 *********************
 Usage
 *********************
 
+------------------------
+Search, filter, and sort
+------------------------
+
+Starting point is either a gene name, a chromsome/position, or a chromosome/position range. Select the appropriate tab, enter the desired values and click "SEARCH".
+If desired, the results can already be filtered at the start. Reasonable defaults are preselected. 
+The results will appear as a table and can be further sorted (by clicking on the arrows in the header line) or sub-selected (by entering the respective value in the 2nd line and hitting enter).
+If nothing is found, a respective message is displayed. If no such message is displayed, yet no table is shown, do not hesitate to hit "Search" again.
+ 
+
 .. image:: assets/Dashboard_example_coffee.png
   :width: 600
   :alt: This should be a screenshot of the Dashboard
+
+--------------
+Result Columns
+--------------
+
+Most columns are self-explanatory. **Sample** refers to the sample name in the vcf file and the additional information on the sample is drawn from the passport.tab file that the user can customise. 
+The alleles are given as **REF** and **ALT**, denoting the reference allele and the alternative allele (= variant/mutation). 
+Genotypes are 0/0 for homozygous reference, 1/1 for homozygous variant, and 0/1 for hetero-/hemi-zygous. 
+Additional allele classes are possible for multi-allelic variants, denoting the respective alternative allele (e.g., 0/2, etc).
+
+**Impact** and **Effect** are displayed as recorded in the vcf file by SnpEff; as is the **Distance** to the gene, where 0 means that the variant lies within the gene. 
+**ID** refers to the ID column in the vcf file, and will be empty if this column had not been filled upstream.
 
 
 *********************
@@ -226,7 +319,7 @@ Copyright information
 This Dashboard was developed by Anza Ghaffar and Norman Warthmann, 
 © 2020 `Plant Breeding and Genetics Laboratory of the FAO/IAEA Joint Division <http://www-naweb.iaea.org/nafa/pbg/index.html>`_.
 If you find this DashBoard useful and want to use in in your own research, please get in touch by emailing
-n.warthmann@iaea.org. We are happy to provide an annotated vcf/bcf to help you getting started.
+n.warthmann@iaea.org. We are happy to provide an annotated vcf/bcf to help you get started.
 
 
 
