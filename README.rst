@@ -245,7 +245,7 @@ For a **local/development** deployment edit mutants_dashboard.py and make sure t
     app = dash.Dash(__name__)
 
 
-then invoke the tool on localhost like so
+Then invoke the tool on the local machine like so
 
 .. code-block:: python 
 
@@ -270,14 +270,14 @@ For **internet/production** deployment: In mutants_dashboard.py change the comme
     #app = dash.Dash(__name__)
 
 
-Then invoke the tool in the server. For example like so:
+Then start the tool on the server. For example like so:
 
 .. code-block:: python 
 
     gunicorn mutants_dashboard:server -b :8000
 
 
-It can then be reached on the respective server on port 8000. E.g., http://0.0.0.0:8000
+It can then be reached via the internet at the respective server address on port 8000. E.g., http://93.104.208.25:8000
 
 *********************
 Usage
