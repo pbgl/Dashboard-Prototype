@@ -1,0 +1,525 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Mutants Browser DashBoard &mdash; Dashboard-Prototype 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> Dashboard-Prototype
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Mutants Browser DashBoard</a><ul>
+<li><a class="reference internal" href="#purpose">Purpose</a><ul>
+<li><a class="reference internal" href="#for-the-impatient">For the impatient</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#setting-up-the-dashboard">Setting up the DashBoard</a><ul>
+<li><a class="reference internal" href="#installing-the-conda-environment">Installing the conda environment</a></li>
+<li><a class="reference internal" href="#creating-the-data-tables">Creating the data tables</a></li>
+<li><a class="reference internal" href="#creating-the-dashboard">Creating the Dashboard</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#details-on-generating-the-data-tables">Details on generating the data tables</a><ul>
+<li><a class="reference internal" href="#snpsift-data-snpsiftdata-tab">SnpSift Data (snpsiftdata.tab)</a></li>
+<li><a class="reference internal" href="#genotype-data-genotype-data-tab">Genotype Data (genotype_data.tab)</a></li>
+<li><a class="reference internal" href="#passport-data-passport-tab">Passport Data (passport.tab)</a></li>
+<li><a class="reference internal" href="#chromosome-name-mapping-chromosome-name-mapping-tab">Chromosome Name Mapping (chromosome_name_mapping.tab)</a></li>
+<li><a class="reference internal" href="#customising-the-dashboard">Customising the Dashboard</a></li>
+<li><a class="reference internal" href="#deployment">Deployment</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-the-dashboard">Using the DashBoard</a><ul>
+<li><a class="reference internal" href="#variant-search-parameters">Variant Search Parameters</a></li>
+<li><a class="reference internal" href="#variant-filter">Variant Filter</a></li>
+<li><a class="reference internal" href="#passport-filter">Passport Filter</a></li>
+<li><a class="reference internal" href="#noise-removal">Noise Removal</a></li>
+<li><a class="reference internal" href="#result-columns">Result Columns</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#copyright-information">Copyright information</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Dashboard-Prototype</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Mutants Browser DashBoard</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mutants-browser-dashboard">
+<h1>Mutants Browser DashBoard</h1>
+<p>of the <a class="reference external" href="http://www-naweb.iaea.org/nafa/pbg/index.html">Plant Breeding and Genetics Laboratory, FAO/IAEA Joint Division</a>.</p>
+<a class="reference external image-reference" href="https://www.python.org"><img alt="https://img.shields.io/badge/python-3.5-blue" src="https://img.shields.io/badge/python-3.5-blue" /></a>
+<a class="reference external image-reference" href="https://bioconda.github.io/"><img alt="https://img.shields.io/badge/Bioconda-up%20todate-brightgreen" src="https://img.shields.io/badge/Bioconda-up%20todate-brightgreen" /></a>
+<a class="reference external image-reference" href="http://snpeff.sourceforge.net/"><img alt="https://img.shields.io/badge/SnpSift-4.3.1t-blue" src="https://img.shields.io/badge/SnpSift-4.3.1t-blue" /></a>
+<a class="reference external image-reference" href="http://snpeff.sourceforge.net/"><img alt="https://img.shields.io/badge/SnpEff-4.5covid19-blue" src="https://img.shields.io/badge/SnpEff-4.5covid19-blue" /></a>
+<div class="section" id="purpose">
+<h2>Purpose</h2>
+<p>This DashBoard provides a search interface for DNA variation. The intended purpose is a searchable catalogue of mutations and mutant individuals that is queried by genes-of-interest or chromosome/position ranges.
+The user will have to have a bcf/vcf file generated by SnpEff (<a class="reference external" href="http://snpeff.sourceforge.net/">http://snpeff.sourceforge.net/</a>).
+The DashBoard will use the annotation information from this file. We provide a parser that will generate the data tables for the DashBoard. The user can add passport information to the individuals and custom chromosome identifiers.</p>
+<div class="section" id="for-the-impatient">
+<h3>For the impatient</h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ conda env create -f envs/condaenv.yaml
+$ conda activate Dashboard
+$ bash utils/vcf_to_datatables.sh ../snpeff.output.bcf.gz
+$ python mutants_dashboard.py
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="setting-up-the-dashboard">
+<h2>Setting up the DashBoard</h2>
+<div class="section" id="installing-the-conda-environment">
+<h3>Installing the conda environment</h3>
+<p>The DashBoard will need to run in a conda environment.</p>
+<p>Create the environment defined in <strong>envs/condaenv.yaml</strong> like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ conda env create -f envs/condaenv.yaml
+</pre></div>
+</div>
+<p>Once created, activate the environment <strong>Dashboard</strong> like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ conda activate Dashboard
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-the-data-tables">
+<h3>Creating the data tables</h3>
+<p>Prerequisite is a vcf/bcf file that has been run through SnpEeff to annotate the variant’s effects (<a class="reference external" href="http://snpeff.sourceforge.net/">http://snpeff.sourceforge.net/</a>).
+On such annotated vcf/bcf file run the parser script like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ bash utils/vcf_to_datatables.sh &lt;path to snpeff.output.vcf.gz&gt;
+</pre></div>
+</div>
+<p>This will generate all required data tables.</p>
+<ul class="simple">
+<li><p>snpsiftdata.tab</p></li>
+<li><p>genotype_data.tab</p></li>
+<li><p>passport.tab</p></li>
+<li><p>chromosome_name_mapping.tab</p></li>
+</ul>
+<p>The user now has the option to edit <strong>passport.tab</strong> in order to add details to individual samples. In <strong>chromosome_name_mapping.tab</strong> custom chromosome identifiers can be provided in the “Chromosome” column.
+Note that subsequent runs of the parser (<strong>vcf_to_datatables.sh</strong>) will overwrite the existing files in ./data. Details on how the tables are generated can be found further below.</p>
+</div>
+<div class="section" id="creating-the-dashboard">
+<h3>Creating the Dashboard</h3>
+<p>With the data tables generated (and located in <strong>./data</strong>), run the following command to create the DashBoard:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python mutants_dashboard.py
+</pre></div>
+</div>
+<p>Upon startup the dashboard will report where its running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Running on http://127.0.0.1:8050/
+Debugger PIN: <span class="m">383</span>-685-305
+* Serving Flask app <span class="s2">&quot;mutants_dashboard&quot;</span> <span class="o">(</span>lazy loading<span class="o">)</span>
+* Environment: production
+WARNING: This is a development server. Do not use it <span class="k">in</span> a production deployment.
+</pre></div>
+</div>
+<p>In the above/standard case, point your browser to URL <strong>http://127.0.0.1:8050/</strong> to view the DashBoard.
+The DashBoard’s display name can be configured by editing the “institution” and “tool” variables in <strong>mutants_dashboard.py</strong>.</p>
+</div>
+</div>
+<div class="section" id="details-on-generating-the-data-tables">
+<span id="id1"></span><h2>Details on generating the data tables</h2>
+<p>We kept the extraction of relevant information from the vcf/bcf file into the data tables quite simple and use only standard software tools.
+All commands are executed when running <strong>bash utils/vcf_to_datatables.sh</strong>. We provide details below for transparency.
+The commands are easily tested and adjusted to meet specific needs. Example data tables are provided in <strong>./data_example</strong> for reference.</p>
+<div class="section" id="snpsift-data-snpsiftdata-tab">
+<h3>SnpSift Data (snpsiftdata.tab)</h3>
+<p>This file is created from the &lt;snpeff.output.vcf_or_bcf.gz&gt; by <strong>utils/vcf_to_datatables.sh</strong> like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bcftools view &lt;snpeff.output.vcf_or_bcf.gz&gt; <span class="p">|</span> grep -v <span class="s2">&quot;start_retained_variant&quot;</span> <span class="p">|</span> <span class="se">\</span>
+<span class="nv">$CONDA_PREFIX</span>/share/snpsift-*/scripts/vcfEffOnePerLine.pl <span class="p">|</span> <span class="se">\</span>
+SnpSift extractFields -e <span class="s2">&quot;NA&quot;</span> - <span class="s2">&quot;ANN[*].GENE&quot;</span> <span class="s2">&quot;ANN[*].DISTANCE&quot;</span> CHROM POS ID REF ALT TYPE <span class="s2">&quot;ANN[*].IMPACT&quot;</span> <span class="s2">&quot;ANN[*].EFFECT&quot;</span> <span class="s2">&quot;ANN[*].FEATURE&quot;</span> <span class="s2">&quot;ANN[*].FEATUREID&quot;</span> <span class="s2">&quot;ANN[*].BIOTYPE&quot;</span> <span class="s2">&quot;ANN[*].RANK&quot;</span> <span class="se">\</span>
+&gt; data/snpsiftdata.tab
+</pre></div>
+</div>
+<p>It uses snpEff/SnpSifts own functionality and scripts to extract the relevant annotation and effect information per variant.
+We are excluding lines containing “start_retained_variant”, because the most recent SnpSift version we used (4.3.1t) does not seem to understand this effect type.</p>
+</div>
+<div class="section" id="genotype-data-genotype-data-tab">
+<h3>Genotype Data (genotype_data.tab)</h3>
+<p>This file is created from the &lt;snpeff.output.vcf_or_bcf.gz&gt; by <strong>utils/vcf_to_datatables.sh</strong> like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">CHROM_POS</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">&quot;CHROM\\tPOS\\t&quot;</span><span class="k">)</span><span class="p">;</span>
+<span class="nv">SAMPLE_NAMES</span><span class="o">=</span><span class="k">$(</span>bcftools query -l &lt;snpeff.output.vcf_or_bcf.gz&gt; <span class="p">|</span> paste -s -d <span class="s2">&quot;\t&quot;</span> -<span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$CHROM_POS$SAMPLE_NAMES</span><span class="s2">&quot;</span>&gt; data/genotype_data.tab
+bcftools view &lt;snpeff.output.vcf_or_bcf.gz&gt; <span class="p">|</span> bcftools query -f <span class="s2">&quot;%CHROM\t%POS[\t%GT]\n&quot;</span> &gt;&gt; data/genotype_data.tab
+</pre></div>
+</div>
+<p>It simply extracts genotypes for all samples at all variant Chromosome/Positions.</p>
+</div>
+<div class="section" id="passport-data-passport-tab">
+<h3>Passport Data (passport.tab)</h3>
+<p>This table is initially populated with the sample names found in the &lt;snpeff.output.vcf_or_bcf.gz&gt; file in the “Sample-ID” column and “NA” in each of the data columns.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">printf</span> <span class="s2">&quot;Sample-ID\\tPlant-ID\\tBranch-ID\\tVariety\\tGeneration\\tTreatment\\tDose\n&quot;</span> &gt; data/passport.tab
+<span class="nv">a</span><span class="o">=</span><span class="k">$(</span>bcftools query -l &lt;snpeff.output.vcf_or_bcf.gz&gt;<span class="k">)</span>
+<span class="nv">b</span><span class="o">=</span><span class="s2">&quot;\tNA\tNA\tNA\tNA\tNA\tNA&quot;</span>
+<span class="k">for</span> i <span class="k">in</span> <span class="si">${</span><span class="nv">a</span><span class="p">[*]</span><span class="si">}</span><span class="p">;</span> <span class="k">do</span>
+   <span class="nb">echo</span> -e <span class="nv">$i$b</span> &gt;&gt; data/passport.tab<span class="p">;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>The user has then the option to edit this file and replace respective “NA”s with relevant information for each of the samples.
+“Sample-ID” is the primary key and must not be edited. Lines must not be removed.</p>
+<p>Example <strong>passport.tab</strong> file (after manual editing):</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 17%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Sample-ID</p></th>
+<th class="head"><p>Plant-ID</p></th>
+<th class="head"><p>Branch-ID</p></th>
+<th class="head"><p>Variety</p></th>
+<th class="head"><p>Generation</p></th>
+<th class="head"><p>Treatment</p></th>
+<th class="head"><p>Dose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1-C7</p></td>
+<td><p>Ca-2018-021</p></td>
+<td><p>NA</p></td>
+<td><p>Venetia</p></td>
+<td><p>M0</p></td>
+<td><p>Control</p></td>
+<td><p>NA</p></td>
+</tr>
+<tr class="row-odd"><td><p>1-D4</p></td>
+<td><p>Ca-2018-025</p></td>
+<td><p>NA</p></td>
+<td><p>Venetia</p></td>
+<td><p>M1</p></td>
+<td><p>EMS</p></td>
+<td><p>2%</p></td>
+</tr>
+<tr class="row-even"><td><p>1-E2</p></td>
+<td><p>Ca-2018-030</p></td>
+<td><p>NA</p></td>
+<td><p>Venetia</p></td>
+<td><p>M1</p></td>
+<td><p>Gamma</p></td>
+<td><p>50 Gy</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="chromosome-name-mapping-chromosome-name-mapping-tab">
+<h3>Chromosome Name Mapping (chromosome_name_mapping.tab)</h3>
+<p>This file is created from the &lt;snpeff.output.vcf_or_bcf.gz&gt; by <strong>utils/vcf_to_datatables.sh</strong> like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">printf</span> <span class="s2">&quot;Contig\\tChromosome\n&quot;</span> &gt; data/chromosome_name_mapping.tab
+bcftools view -h &lt;snpeff.output.vcf_or_bcf.gz&gt; <span class="p">|</span> grep <span class="s2">&quot;##cont&quot;</span><span class="p">|</span> <span class="se">\</span>
+awk -F <span class="s2">&quot;=|,&quot;</span> <span class="s1">&#39;{print $3 &quot;\t&quot; $3}&#39;</span> &gt;&gt; data/chromosome_name_mapping.tab
+</pre></div>
+</div>
+<p>The chromosome names are extracted from the vcf/bcf file and recorded twice (in 2 columns), as “Contig” and “Chromosome”.
+The “Contig” column must remain unchanged, however, the user has the option of mapping the “Contig” names to custom chromosome identifiers by editing the “Chromosome” column.</p>
+</div>
+<div class="section" id="customising-the-dashboard">
+<h3>Customising the Dashboard</h3>
+<p>The Dasboard’s name, displayed in the upper left corner, is easily customised by changing the variables <strong>institution</strong> and <strong>tool</strong>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">institution</span><span class="o">=</span><span class="s1">&#39;FAO/IAEA-PBGL&#39;</span>
+<span class="n">tool</span><span class="o">=</span><span class="s1">&#39;Coffee Mutants Browser&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deployment">
+<h3>Deployment</h3>
+<p>There are twe modes of deployment. On localhost or via the network/internet. They are mutually exclusive and when changing the code make sure the correct lines are commented and uncommented.</p>
+<p>For a <strong>local/development</strong> deployment, edit <strong>mutants_dashboard.py</strong> and make sure that it looks as below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">###########################################</span>
+<span class="c1">## production mode</span>
+<span class="c1">#import flask</span>
+<span class="c1">#server = flask.Flask(__name__)</span>
+<span class="c1">#app = dash.Dash(__name__, server=server)</span>
+
+<span class="c1">## then invoke the tool in the server like so:</span>
+<span class="c1">## gunicorn mutants_dashboard:server -b :8000</span>
+
+
+<span class="c1">############################################</span>
+<span class="c1">## local/devlopment mode</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">dash</span><span class="o">.</span><span class="n">Dash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then invoke the tool on the local machine like so:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">mutants_dashboard</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Upon startup it will report where it is running, the default is localhost port 8050. (<a class="reference external" href="http://127.0.0.1:8050/">http://127.0.0.1:8050/</a>)</p>
+<p>For <strong>internet/production</strong> deployment: In <strong>mutants_dashboard.py</strong> change the commenting such that it looks like so:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">###########################################</span>
+<span class="c1">## production mode</span>
+<span class="kn">import</span> <span class="nn">flask</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">dash</span><span class="o">.</span><span class="n">Dash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">server</span><span class="o">=</span><span class="n">server</span><span class="p">)</span>
+
+<span class="c1">############################################</span>
+<span class="c1">## local/devlopment mode</span>
+<span class="c1">#app = dash.Dash(__name__)</span>
+</pre></div>
+</div>
+<p>Then start the tool on the server. For example like so:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gunicorn</span> <span class="n">mutants_dashboard</span><span class="p">:</span><span class="n">server</span> <span class="o">-</span><span class="n">b</span> <span class="p">:</span><span class="mi">8000</span>
+</pre></div>
+</div>
+<p>It can then be reached via the network/internet at the respective server address on port 8000. E.g., <a class="reference external" href="http://93.104.208.25:8000">http://93.104.208.25:8000</a></p>
+</div>
+</div>
+<div class="section" id="using-the-dashboard">
+<h2>Using the DashBoard</h2>
+<div class="section" id="variant-search-parameters">
+<h3>Variant Search Parameters</h3>
+<p>The starting point is either a gene name, a chromsome/position, or a chromosome/position range. This can be done by selecting the appropriate tab under <strong>Variant Search Parameters</strong> on the left panel. There are 3 tabs to choose from: <strong>Gene Identifier</strong>, <strong>Range</strong>, and <strong>Position</strong>. The first tab <strong>Gene Identifier</strong>  gives the option of typing the <strong>Gene Name</strong> and the <strong>Max Distance from Gene</strong> in basepairs (bp).</p>
+<img alt="gene-identifier-tab" class="align-center" src="_images/gene_identifier.png" />
+<p>The second tab <strong>Range</strong> provides the options of specifying the <strong>Chromosome Name</strong> and the <strong>Start</strong>/<strong>End</strong> positions of the chromosome.</p>
+<img alt="range-tab" class="align-center" src="_images/range.png" />
+<p>The third tab <strong>Position</strong> provides the option to specify the <strong>Chromosome name</strong> and the <strong>Position</strong> (base-pair number) in the chromosome.</p>
+<img alt="position-tab" class="align-center" src="_images/position.png" />
+</div>
+<div class="section" id="variant-filter">
+<h3>Variant Filter</h3>
+<p>After inputting the <strong>Variant Search Parameters</strong> of choice, one can specify the type of variant filter under the <strong>Variant Filter</strong> section of the left panel, which contains 3 tabs: <strong>Variant Type</strong>, <strong>Impact Type</strong>, and <strong>Effect Type</strong>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All of the options in each tab under the <strong>Variant Filter</strong> and <strong>Passport Filter</strong> sections are extracted from the VCF file; i.e. the options are not hard-coded, rather dependent on the information present in the VCF file being analyzed.</p>
+<p>The front-end/back-end developer should pay attention to and understand this information to avoid incorrect/erroneous results.</p>
+</div>
+<p>The first tab <strong>Variant Type</strong> gives the option of including different type of mutations in the search results. These include: complex mutations (complex), single-nucleotide polymorphisms (snp), multi-nucleotide polymorphisms (mnp), deletions (del), and insertions (ins). The available mutations may vary depending on the mutations present in the VCF file.</p>
+<img alt="variant-type" class="align-center" src="_images/variant_type.png" />
+<p>The second tab <strong>Impact Type</strong> gives the option of including different types of impacts, such as: moderate, modifier, low, or high. More or less options might appear, depending on the information the software extracts from the VCF file, as mentioned in the <strong>Warning</strong> message above.</p>
+<img alt="impact-type" class="align-center" src="_images/impact_type.png" />
+<p>The third tab <strong>Effect Type</strong> provides different options, depending on the information present in the VCF file. One can choose the effect type by clicking on the arrow found on the right of the search bar and then scrolling down to choose from the options provided.</p>
+<img alt="effect-type" class="align-center" src="_images/effect_type.png" />
+</div>
+<div class="section" id="passport-filter">
+<h3>Passport Filter</h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The same situation from the <strong>Warning</strong> message above applies here. The options under each tab will depend on the information present in the VCF file. These options are not hard-coded.</p>
+</div>
+<p>The options under the <strong>Passport Filter</strong> depend on the user-input in the <strong>passport.csv</strong> file, which specifies multiple fields: Sample-ID, Plant-ID, Branch-ID, Variety, Generation, Treatment, and Dose. This file is used to when running the <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">mutants_dashboard.py</span></code> command in a computer terminal. Using coffee as an example, the <strong>passport.csv</strong> file can be filled as shown below.</p>
+<img alt="passport-file" class="align-center" src="_images/passport_file.png" />
+<p>Using coffee as an example, the available fields in the first tab <strong>Variety</strong> provides the option to include specific verieties of coffee in the search results. The varieties available will depend on the user’s input of the <strong>passport.csv</strong> file.</p>
+<img alt="variety-coffee" class="align-center" src="_images/variety.png" />
+<p>The second tab <strong>Generation</strong> will also depend on the user’s input in the <strong>passport.csv</strong> file. For the present example, only an M0 generation is present.</p>
+<img alt="generation-m0" class="align-center" src="_images/generation.png" />
+</div>
+<div class="section" id="noise-removal">
+<h3>Noise Removal</h3>
+<p>The section <strong>Noise Removal</strong> provides multiple options to further filter out or leave in noise. The first option <strong>Samples with REF Allele (00)</strong> gives the option to leave or filter out those genotypes that are similar to the reference allele of a reference genome. This means that no mutation occurred, so it should not be included as a variant. The second option <strong>Samples with Missing Data (.)</strong> pretty much is self-explanatory. Those fields with missing data are identified by a <code class="docutils literal notranslate"><span class="pre">.</span></code> in the VCF file. The third option <strong>Multi Allelic Variants</strong> lets the user include those alleles with more than one mutations. This can include mutated genotypes, such as 0/2, 1/2, 0/3, etc.</p>
+<img alt="noise-removal" class="align-center" src="_images/noise_removal.png" />
+</div>
+<div class="section" id="result-columns">
+<h3>Result Columns</h3>
+<p>If desired, the results can already be filtered at the start. Reasonable defaults are preselected. If nothing is found, a respective message is displayed. If no such message is displayed, yet no table is shown, do not hesitate to hit the <strong>SEARCH</strong> button on the bottom of the left panel again.</p>
+<img alt="search-button" class="align-center" src="_images/search.png" />
+<p>The results will appear as a table.</p>
+<a class="reference internal image-reference" href="_images/dashboard_coffee_example.png"><img alt="dashboard-example" class="align-center" src="_images/dashboard_coffee_example.png" style="width: 600px;" /></a>
+<p>The results can be further sorted (by clicking on the arrows in the header line) or sub-selected (by entering the respective value in the 2nd line and hitting enter).</p>
+<a class="reference internal image-reference" href="_images/filter_data.png"><img alt="filter-data-table" class="align-center" src="_images/filter_data.png" style="width: 600px;" /></a>
+<p>As an example, from the above results, one can choose the “1/1” genotype of sample 1-C7 under the <strong>GT ** and **Sample-ID</strong> column headers by typing the corresponding information on the second row under each column header and then pressing “Enter”. The results should only show those genes of sample 1-C7 with 1/1 genotype.</p>
+<a class="reference internal image-reference" href="_images/gt-1-1.png"><img alt="gt-1-1" class="align-center" src="_images/gt-1-1.png" style="width: 600px;" /></a>
+<p>Most columns are self-explanatory. <strong>Sample</strong> refers to the sample name in the input vcf/bcf file. The additional information on the sample is drawn from the passport.tab file that the user can customise.
+The alleles are given as <strong>REF</strong> and <strong>ALT</strong>, denoting reference and alternative alleles (= variant/mutation).
+Genotypes are 0/0 for homozygous reference, 1/1 for homozygous variant, and 0/1 for hetero-/hemi-zygous.
+Additional allele classes are possible for multi-allelic variants, denoting the respective alternative allele (e.g., 0/2, etc).</p>
+<p><strong>Impact</strong> and <strong>Effect</strong> are displayed as recorded by SnpEff in the &lt;snpeff.output.vcf_or_bcf.gz&gt; file; same for the <strong>Distance</strong> to the gene, where 0 means that the variant lies within the gene.
+<strong>ID</strong> refers to the ID column in the vcf file, and will be empty if this column had not been filled upstream.</p>
+</div>
+</div>
+<div class="section" id="copyright-information">
+<h2>Copyright information</h2>
+<p>This Dashboard was developed by Anza Ghaffar and Norman Warthmann,
+© 2020 <a class="reference external" href="http://www-naweb.iaea.org/nafa/pbg/index.html">Plant Breeding and Genetics Laboratory of the FAO/IAEA Joint Division</a>. Documentation was last updated in February 2021 by Anibal Morales, Plant Breeding and Genetics Laboratory of the FAO/IAEA Joint Division.
+If you find this DashBoard useful and want to use in in your own research, please get in touch by emailing
+<a class="reference external" href="mailto:n&#46;warthmann&#37;&#52;&#48;iaea&#46;org">n<span>&#46;</span>warthmann<span>&#64;</span>iaea<span>&#46;</span>org</a>. We are happy to provide an annotated (SnpEff) vcf/bcf file to help you get started.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Norman Warthmann, Anibal Morales.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

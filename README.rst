@@ -1,8 +1,7 @@
-
 #########################
 Mutants Browser DashBoard
 #########################
-of the `Plant Breeding and Genetics Laboratory, FAO/IAEA Joint Division <http://www-naweb.iaea.org/nafa/pbg/index.html>`_
+of the `Plant Breeding and Genetics Laboratory, FAO/IAEA Joint Division <http://www-naweb.iaea.org/nafa/pbg/index.html>`_. The online version can be accessed by clicking on the following `Read-the-Docs Mutant Browser DashBoard webiste <https://dashboard-prototype.readthedocs.io/en/latest/>`_ or copy-pasting the following link: https://dashboard-prototype.readthedocs.io/en/latest/. 
 
 
 .. image:: https://img.shields.io/badge/python-3.5-blue
@@ -129,9 +128,9 @@ All commands are executed when running **bash utils/vcf_to_datatables.sh**. We p
 The commands are easily tested and adjusted to meet specific needs. Example data tables are provided in **./data_example** for reference. 
 
 
--------------
+------------------------------
 SnpSift Data (snpsiftdata.tab)
--------------
+------------------------------
 
 This file is created from the <snpeff.output.vcf_or_bcf.gz> by **utils/vcf_to_datatables.sh** like so:
 
@@ -283,25 +282,124 @@ It can then be reached via the network/internet at the respective server address
 Using the DashBoard
 *******************
 
-------------------------
-Search, filter, and sort
-------------------------
+-------------------------
+Variant Search Parameters
+-------------------------
 
-Starting point is either a gene name, a chromsome/position, or a chromosome/position range. Select the appropriate tab, enter the desired values and click "SEARCH".
-If desired, the results can already be filtered at the start. Reasonable defaults are preselected. 
-The results will appear as a table and can be further sorted (by clicking on the arrows in the header line) or sub-selected (by entering the respective value in the 2nd line and hitting enter).
-If nothing is found, a respective message is displayed. If no such message is displayed, yet no table is shown, do not hesitate to hit "Search" again.
- 
+The starting point is either a gene name, a chromsome/position, or a chromosome/position range. This can be done by selecting the appropriate tab under **Variant Search Parameters** on the left panel. There are 3 tabs to choose from: **Gene Identifier**, **Range**, and **Position**. The first tab **Gene Identifier**  gives the option of typing the **Gene Name** and the **Max Distance from Gene** in basepairs (bp).
 
-.. image:: assets/Dashboard_example_coffee.png
-  :width: 600
-  :alt: You should see a screenshot of the Dashboard
+.. image:: docs/images/gene_identifier.png
+  :alt: gene-identifier-tab
+  :align: center
 
-Click on the image to enlarge! (It will open in new window.)
+The second tab **Range** provides the options of specifying the **Chromosome Name** and the **Start**/**End** positions of the chromosome. 
+
+.. image:: docs/images/range.png
+  :alt: range-tab
+  :align: center
+
+The third tab **Position** provides the option to specify the **Chromosome name** and the **Position** (base-pair number) in the chromosome.
+
+.. image:: docs/images/position.png
+  :alt: position-tab
+  :align: center
+
+--------------
+Variant Filter
+--------------
+
+After inputting the **Variant Search Parameters** of choice, one can specify the type of variant filter under the **Variant Filter** section of the left panel, which contains 3 tabs: **Variant Type**, **Impact Type**, and **Effect Type**.
+
+.. warning::
+   
+   All of the options in each tab under the **Variant Filter** and **Passport Filter** sections are extracted from the VCF file; i.e. the options are not hard-coded, rather dependent on the information present in the VCF file being analyzed.  
+
+   The front-end/back-end developer should pay attention to and understand this information to avoid incorrect/erroneous results. 
+
+The first tab **Variant Type** gives the option of including different type of mutations in the search results. These include: complex mutations (complex), single-nucleotide polymorphisms (snp), multi-nucleotide polymorphisms (mnp), deletions (del), and insertions (ins). The available mutations may vary depending on the mutations present in the VCF file.
+
+.. image:: docs/images/variant_type.png
+  :alt: variant-type
+  :align: center
+
+The second tab **Impact Type** gives the option of including different types of impacts, such as: moderate, modifier, low, or high. More or less options might appear, depending on the information the software extracts from the VCF file, as mentioned in the **Warning** message above.
+
+.. image:: docs/images/impact_type.png
+  :alt: impact-type
+  :align: center
+
+The third tab **Effect Type** provides different options, depending on the information present in the VCF file. One can choose the effect type by clicking on the arrow found on the right of the search bar and then scrolling down to choose from the options provided.
+
+.. image:: docs/images/effect_type.png
+  :alt: effect-type
+  :align: center
+
+---------------
+Passport Filter
+---------------
+
+.. note::
+
+   The same situation from the **Warning** message above applies here. The options under each tab will depend on the information present in the VCF file. These options are not hard-coded.
+
+The options under the **Passport Filter** depend on the user-input in the **passport.csv** file, which specifies multiple fields: Sample-ID, Plant-ID, Branch-ID, Variety, Generation, Treatment, and Dose. This file is used to when running the ``python mutants_dashboard.py`` command in a computer terminal. Using coffee as an example, the **passport.csv** file can be filled as shown below.
+
+.. image:: docs/images/passport_file.png
+  :alt: passport-file
+  :align: center
+
+Using coffee as an example, the available fields in the first tab **Variety** provides the option to include specific verieties of coffee in the search results. The varieties available will depend on the user's input of the **passport.csv** file.
+
+.. image:: docs/images/variety.png
+  :alt: variety-coffee
+  :align: center
+
+The second tab **Generation** will also depend on the user's input in the **passport.csv** file. For the present example, only an M0 generation is present.
+
+.. image:: docs/images/generation.png
+  :alt: generation-m0
+  :align: center
+
+-------------
+Noise Removal
+-------------
+
+The section **Noise Removal** provides multiple options to further filter out or leave in noise. The first option **Samples with REF Allele (00)** gives the option to leave or filter out those genotypes that are similar to the reference allele of a reference genome. This means that no mutation occurred, so it should not be included as a variant. The second option **Samples with Missing Data (.)** pretty much is self-explanatory. Those fields with missing data are identified by a ``.`` in the VCF file. The third option **Multi Allelic Variants** lets the user include those alleles with more than one mutations. This can include mutated genotypes, such as 0/2, 1/2, 0/3, etc. 
+
+.. image:: docs/images/noise_removal.png
+  :alt: noise-removal
+  :align: center
 
 --------------
 Result Columns
 --------------
+
+If desired, the results can already be filtered at the start. Reasonable defaults are preselected. If nothing is found, a respective message is displayed. If no such message is displayed, yet no table is shown, do not hesitate to hit the **SEARCH** button on the bottom of the left panel again.
+
+.. image:: docs/images/search.png
+  :alt: search-button
+  :align: center
+
+The results will appear as a table.
+
+.. image:: docs/images/dashboard_coffee_example.png
+  :width: 600
+  :alt: dashboard-example
+  :align: center
+
+The results can be further sorted (by clicking on the arrows in the header line) or sub-selected (by entering the respective value in the 2nd line and hitting enter).
+
+.. image:: docs/images/filter_data.png
+  :width: 600
+  :alt: filter-data-table
+  :align: center
+
+As an example, from the above results, one can choose the "1/1" genotype of sample 1-C7 under the **GT ** and **Sample-ID** column headers by typing the corresponding information on the second row under each column header and then pressing "Enter". The results should only show those genes of sample 1-C7 with 1/1 genotype.
+
+.. image:: docs/images/gt-1-1.png
+  :width: 600
+  :alt: gt-1-1
+  :align: center
 
 Most columns are self-explanatory. **Sample** refers to the sample name in the input vcf/bcf file. The additional information on the sample is drawn from the passport.tab file that the user can customise. 
 The alleles are given as **REF** and **ALT**, denoting reference and alternative alleles (= variant/mutation). 
@@ -317,9 +415,7 @@ Copyright information
 *********************
 
 This Dashboard was developed by Anza Ghaffar and Norman Warthmann, 
-© 2020 `Plant Breeding and Genetics Laboratory of the FAO/IAEA Joint Division <http://www-naweb.iaea.org/nafa/pbg/index.html>`_.
+© 2020 `Plant Breeding and Genetics Laboratory of the FAO/IAEA Joint Division <http://www-naweb.iaea.org/nafa/pbg/index.html>`_. Documentation was last updated in February 2021 by Anibal Morales, Plant Breeding and Genetics Laboratory of the FAO/IAEA Joint Division. 
 If you find this DashBoard useful and want to use in in your own research, please get in touch by emailing
 n.warthmann@iaea.org. We are happy to provide an annotated (SnpEff) vcf/bcf file to help you get started.
-
-
 
